@@ -6,8 +6,10 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
+  # Pages'in varsayılan olarak eklediği "*" CORS başlığı statik site için gereksiz.
+  ! Access-Control-Allow-Origin
 
 # Önizleme (pages.dev) adresleri arama motorlarında görünmesin.
 https://:project.pages.dev/*
