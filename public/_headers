@@ -1,5 +1,6 @@
 # Cloudflare Pages güvenlik başlıkları (gereksinim analizi: G6, G11).
 # CSP'deki Cloudflare adresleri Turnstile (form) ve Web Analytics içindir.
+# "! Access-Control-Allow-Origin": Pages'in varsayılan "*" CORS başlığını kaldırır.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
@@ -8,7 +9,6 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
-  # Pages'in varsayılan olarak eklediği "*" CORS başlığı statik site için gereksiz.
   ! Access-Control-Allow-Origin
 
 # Önizleme (pages.dev) adresleri arama motorlarında görünmesin.

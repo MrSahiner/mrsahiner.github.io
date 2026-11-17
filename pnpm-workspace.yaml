@@ -1,0 +1,6 @@
+auditConfig:
+  ignoreGhsas:
+    # picomatch ReDoS (17.11.2026 itibarıyla yamalı sürüm yayınlanmadı, son sürüm 4.0.7).
+    # Yalnızca build sırasında, bizim yazdığımız glob kalıplarıyla çalışır; sitede yer almaz.
+    # Yamalı sürüm çıkınca `pnpm update picomatch --depth Infinity` çalıştırıp bu satırı silin.
+    - GHSA-fc5q-39xc-vjpf
