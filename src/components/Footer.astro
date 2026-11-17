@@ -1,0 +1,36 @@
+---
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <p>
+      © {year} {t("site.title")}. {t("footer.rights")}
+    </p>
+    <ul class="flex gap-4">
+      <li>
+        <a href="https://github.com/MrSahiner" rel="me noopener" target="_blank">
+          GitHub
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.linkedin.com/in/muhammed-salim-%C5%9Fahiner-663116360"
+          rel="me noopener"
+          target="_blank"
+        >
+          LinkedIn
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>

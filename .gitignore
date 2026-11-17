@@ -1,0 +1,22 @@
+# derleme çıktısı
+dist/
+.astro/
+
+# bağımlılıklar
+node_modules/
+
+# ortam değişkenleri ve gizli değerler (asla commit edilmez)
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# loglar ve işletim sistemi dosyaları
+*.log
+.DS_Store
+Thumbs.db
+
+# editör
+.vscode/*
+!.vscode/extensions.json
+.idea/
