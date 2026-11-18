@@ -1,4 +1,5 @@
 // Projeler sayfası: kategori filtreleri, kaydırınca beliren kartlar ve mockup'larda imleç derinliği.
+import { setupReveal } from "./reveal";
 // Hareket azaltma tercihinde belirme ve derinlik kapalıdır; filtreler her durumda çalışır.
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -42,26 +43,6 @@ function setupFilters() {
   });
 }
 
-/** Kaydırınca belirme: .reveal öğeleri ekrana girince .is-visible alır (CSS: global.css). */
-function setupReveal() {
-  const items = document.querySelectorAll<HTMLElement>(".reveal");
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    items.forEach((el) => el.classList.add("is-visible"));
-    return;
-  }
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    { threshold: 0, rootMargin: "0px 0px -12% 0px" },
-  );
-  items.forEach((el) => observer.observe(el));
-}
-
 /** Mockup derinliği: imleç kartın neresindeyse mockup katmanları o yöne, farklı oranlarda kayar. */
 function setupMockupDepth() {
   document.querySelectorAll<HTMLElement>(".showcase").forEach((card) => {
@@ -82,6 +63,3 @@ function setupMockupDepth() {
 setupFilters();
 setupReveal();
 if (!reduceMotion && finePointer) setupMockupDepth();
-
-// Dosyayı modül yapar: değişkenler başka script dosyalarıyla çakışmaz.
-export {};

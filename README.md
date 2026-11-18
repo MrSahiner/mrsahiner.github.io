@@ -38,7 +38,8 @@ public/            olduğu gibi kopyalanan dosyalar (_headers, robots.txt, theme
 src/components/    Header (mobil menü dahil), Footer, HomePage, SubPage
 src/components/home/ ana sayfa: Hero (yörüngeler), Bento (gezinme kartları), TechMarquee
 src/components/projects/ Projeler sayfası, proje vitrinleri, mockup'lar ve proje detay sayfası
-src/data/          proje içerikleri (iki dilde): yeni proje eklemek için projects.ts
+src/components/about/ Hakkımda sayfası
+src/data/          içerikler (iki dilde): projects.ts (projeler), about.ts (Hakkımda)
 src/components/ui/ tasarım sistemi: Button, Card, Tag, Badge, Section, Container, Icon
 src/design/        kontrast hesabı (WCAG)
 src/i18n/          dil sözlükleri, iki dilli sayfa adresleri (routes.ts) ve yardımcılar
@@ -65,6 +66,11 @@ src/styles/        global.css (tema renkleri ve fontlar)
 - Sayfa geçişleri tarayıcının kendi view transition özelliğiyle yapılır; ana sayfadaki kart başlığı ile alt sayfanın başlığı aynı `view-transition-name`'i taşır.
 - Tema değişimi düğmeden dışarı doğru büyüyen bir daireyle açılır (`public/theme.js`).
 - "Hareketi azalt" tercihinde bütün animasyonlar kapanır ve içerik doğrudan son haliyle görünür.
+
+## Fotoğraf ve CV
+
+- **Profil fotoğrafı:** `src/assets/profil.jpg` (veya `.png`, `.webp`) eklenince Hakkımda sayfasındaki yer tutucunun yerine geçer; build sırasında küçültülüp WebP'ye çevrilir.
+- **CV:** `public/cv.pdf` eklenince Hakkımda sayfasında "CV indir" butonu görünür. İngilizce sayfa önce `public/cv-en.pdf`'e bakar. Web'e konan CV'de telefon, adres ve öğrenci numarası olmamalı.
 
 ## Yayın
 

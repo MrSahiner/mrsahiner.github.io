@@ -79,6 +79,14 @@ const tr = {
   "projects.roadmap.text": "Yeni projeler geliştirdikçe burada olacak.",
   "projects.roadmap.github": "GitHub profilim",
   "projects.roadmap.contact": "İletişime geç",
+  "about.photoAlt": "Muhammed Salim Şahiner'in portresi",
+  "about.cv": "CV indir",
+  "about.facts": "Künye",
+  "about.methodEyebrow": "Metodoloji",
+  "about.methodTitle": "Nasıl çalışırım",
+  "about.skillsEyebrow": "Teknoloji yığını",
+  "about.skillsTitle": "Yetenekler",
+  "about.now": "Şu an",
   "page.back": "Ana sayfaya dön",
 } as const;
 
@@ -157,6 +165,14 @@ const en: Record<keyof typeof tr, string> = {
   "projects.roadmap.text": "New projects will appear here as I build them.",
   "projects.roadmap.github": "My GitHub profile",
   "projects.roadmap.contact": "Get in touch",
+  "about.photoAlt": "Portrait of Muhammed Salim Şahiner",
+  "about.cv": "Download CV",
+  "about.facts": "Quick facts",
+  "about.methodEyebrow": "Method",
+  "about.methodTitle": "How I work",
+  "about.skillsEyebrow": "Tech stack",
+  "about.skillsTitle": "Skills",
+  "about.now": "Now",
   "page.back": "Back to home",
 };
 

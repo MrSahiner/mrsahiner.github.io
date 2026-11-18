@@ -1,0 +1,272 @@
+---
+// Hakkımda sayfası: fotoğraf ve biyografi, künye, çalışma ilkeleri, yetenekler ve "şu an" kartı.
+//
+// Fotoğraf: src/assets/profil.jpg (veya .jpeg/.png/.webp) eklenince yer tutucunun yerine otomatik geçer;
+//   Astro derleme sırasında küçültüp WebP'ye çevirir.
+// CV: public/cv.pdf eklenince "CV indir" butonu otomatik görünür (İngilizce sayfa önce public/cv-en.pdf'e bakar).
+import fs from "node:fs";
+import path from "node:path";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../ui/Container.astro";
+import Icon from "../ui/Icon.astro";
+import { about } from "../../data/about";
+import { useTranslations } from "../../i18n/utils";
+import { pathFor } from "../../i18n/routes";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../../assets/profil.{jpg,jpeg,png,webp}", {
+  eager: true,
+});
+const photo = Object.values(photos)[0]?.default;
+
+const publicFile = (name: string) => fs.existsSync(path.join(process.cwd(), "public", name));
+const cvFile =
+  lang === "en" && publicFile("cv-en.pdf") ? "/cv-en.pdf" : publicFile("cv.pdf") ? "/cv.pdf" : null;
+---
+
+<BaseLayout title={t("nav.about")} description={about.lead[lang]}>
+  <Container class="space-y-12 py-10 md:space-y-16 md:py-14">
+    <section class="border-b border-border pb-6 md:pb-8">
+      <p class="mb-3 font-mono text-[11px] font-semibold tracking-widest text-primary uppercase">
+        {t("bento.about.eyebrow")}
+      </p>
+      <h1 class="text-[clamp(3rem,9vw,6rem)] leading-[0.95] tracking-[-0.03em] [view-transition-name:baslik-about]">
+        {t("nav.about")}
+      </h1>
+    </section>
+
+    <!-- Fotoğraf ve biyografi -->
+    <section class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-14">
+      <div class="reveal flex justify-center lg:col-span-5 lg:justify-start">
+        <div class="portrait relative isolate aspect-[4/5] w-full max-w-[340px]" data-portrait>
+          <div
+            class="portrait-frame absolute inset-0 -z-10 rounded-[20px] border border-accent/70 bg-accent-soft/30"
+            aria-hidden="true"
+          ></div>
+
+          <div class="relative flex size-full flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-3 shadow-card">
+            {photo ? (
+              <Image
+                src={photo}
+                alt={t("about.photoAlt")}
+                widths={[340, 680]}
+                sizes="340px"
+                format="webp"
+                class="size-full rounded-[14px] object-cover"
+                loading="eager"
+              />
+            ) : (
+              <div class="relative flex size-full flex-col items-center justify-center overflow-hidden rounded-[14px] border border-border/80 bg-accent-soft">
+                <div class="absolute size-48 rounded-full bg-background blur-2xl" aria-hidden="true" />
+                <div class="relative z-10 grid size-28 place-items-center rounded-full border-2 border-accent/60 bg-surface shadow-card">
+                  <span class="font-heading text-5xl font-semibold text-primary" aria-hidden="true">
+                    MŞ
+                  </span>
+                </div>
+                <div class="relative z-10 mt-4 px-4 text-center">
+                  <p class="text-base font-semibold">{t("site.title")}</p>
+                  <p class="mt-1 font-mono text-[11px] font-medium text-muted">{about.role[lang]}</p>
+                </div>
+              </div>
+            )}
+
+            <p class="absolute bottom-5 left-6 z-20 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-xs font-medium shadow-card">
+              <span class="size-2 animate-pulse rounded-full bg-accent" aria-hidden="true"></span>
+              {t("hero.available")}
+            </p>
+          </div>
+
+          <svg
+            class="portrait-orbit pointer-events-none absolute -right-7 -bottom-7 z-30 h-24 w-32"
+            viewBox="0 0 128 96"
+            fill="none"
+            aria-hidden="true"
+          >
+            <ellipse
+              class="stroke-accent opacity-80"
+              cx="64"
+              cy="48"
+              rx="54"
+              ry="26"
+              transform="rotate(-15 64 48)"
+              stroke-width="1.2"
+              stroke-dasharray="4 6"
+            ></ellipse>
+            <g class="portrait-orbit-spin">
+              <circle class="fill-accent" cx="106" cy="36" r="3"></circle>
+              <circle class="fill-primary" cx="22" cy="62" r="2.5"></circle>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="reveal flex flex-col items-start space-y-6 lg:col-span-7">
+        <p class="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase">
+          <span class="mr-2 text-accent" aria-hidden="true">
+            //
+          </span>
+          {t("hero.roleA")}
+        </p>
+        <h2 class="text-[34px] leading-tight text-balance sm:text-[42px]">{about.lead[lang]}</h2>
+        <p class="text-lg leading-relaxed text-muted">{about.bio[lang]}</p>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          {cvFile && (
+            <a
+              href={cvFile}
+              download
+              class="inline-flex items-center gap-2.5 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground no-underline shadow-card transition-colors hover:bg-primary-hover hover:text-primary-foreground"
+            >
+              <Icon name="download" class="size-[18px]" />
+              {t("about.cv")}
+            </a>
+          )}
+          <a
+            href={pathFor("contact", lang)}
+            class:list={[
+              "inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium no-underline shadow-card transition-colors",
+              cvFile
+                ? "border border-border bg-surface text-foreground hover:border-accent hover:text-primary"
+                : "bg-primary text-primary-foreground hover:bg-primary-hover hover:text-primary-foreground",
+            ]}
+          >
+            {t("projects.roadmap.contact")}
+            <Icon name="arrow-right" class="size-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Künye -->
+    <section aria-label={t("about.facts")}>
+      <dl class="reveal-stagger grid grid-cols-2 gap-4 md:grid-cols-4">
+        {about.facts.map((f) => (
+          <div class="flex flex-col justify-between rounded-card border border-border bg-surface p-5 shadow-card">
+            <dt class="mb-2 font-mono text-[11px] font-semibold tracking-wider text-muted uppercase">
+              {f.label[lang]}
+            </dt>
+            <dd class="font-heading text-[26px] leading-tight font-semibold sm:text-[28px]">
+              {f.value[lang]}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <!-- Nasıl çalışırım -->
+    <section class="space-y-6" aria-labelledby="nasil-calisirim">
+      <div class="reveal">
+        <p class="mb-2 font-mono text-[11px] font-semibold tracking-widest text-primary uppercase">
+          {t("about.methodEyebrow")}
+        </p>
+        <h2 id="nasil-calisirim" class="text-4xl">
+          {t("about.methodTitle")}
+        </h2>
+      </div>
+      <ul class="reveal-stagger grid grid-cols-1 gap-5 md:grid-cols-2">
+        {about.principles.map((p) => (
+          <li class="group flex items-start gap-4 rounded-card border border-border bg-surface p-6 shadow-card transition-colors hover:border-accent sm:p-7">
+            <span class="mt-0.5 grid size-10 shrink-0 place-items-center rounded-full bg-accent-soft text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+              <Icon name={p.icon} class="size-5" />
+            </span>
+            <div>
+              <h3 class="mb-1.5 font-sans text-base font-semibold">{p.title[lang]}</h3>
+              <p class="text-[13px] leading-relaxed text-muted">{p.text[lang]}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Yetenekler -->
+    <section class="space-y-6" aria-labelledby="yetenekler">
+      <div class="reveal">
+        <p class="mb-2 font-mono text-[11px] font-semibold tracking-widest text-primary uppercase">
+          {t("about.skillsEyebrow")}
+        </p>
+        <h2 id="yetenekler" class="text-4xl">
+          {t("about.skillsTitle")}
+        </h2>
+      </div>
+      <div class="reveal-stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {about.skills.map((s) => (
+          <div class="rounded-card border border-border bg-surface p-6 shadow-card">
+            <h3 class="mb-4 border-b border-border pb-2 font-mono text-[11px] font-semibold tracking-wider text-muted uppercase">
+              {s.group[lang]}
+            </h3>
+            <ul class="flex flex-wrap gap-2">
+              {s.items.map((item) => (
+                <li class="rounded border border-border bg-background px-2.5 py-1 font-mono text-[11px] font-medium transition-colors hover:border-accent hover:text-primary">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Şu an: ters renkli spot kart -->
+    <section class="reveal relative overflow-hidden rounded-card border border-spotlight-border bg-spotlight p-6 text-spotlight-foreground shadow-[0_24px_60px_-24px_var(--glow)] sm:p-10">
+      <div
+        class="pointer-events-none absolute -right-20 -bottom-24 size-72 rounded-full bg-primary/15 blur-3xl"
+        aria-hidden="true"
+      ></div>
+      <div class="relative z-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
+        <div class="space-y-2">
+          <p class="font-mono text-[11px] font-semibold tracking-widest text-spotlight-accent uppercase">
+            {t("about.now")}
+          </p>
+          <h2 class="text-[32px] leading-tight text-spotlight-foreground sm:text-[38px]">
+            {about.now.title[lang]}
+          </h2>
+          <p class="max-w-xl text-[15px] text-spotlight-muted">{about.now.text[lang]}</p>
+        </div>
+        <div class="flex shrink-0 flex-wrap items-center gap-3 text-sm font-medium">
+          {(["projects", "experience"] as const).map((key) => (
+            <a
+              href={pathFor(key, lang)}
+              class="group inline-flex items-center gap-1.5 rounded-full border border-spotlight-border bg-spotlight-nested px-4 py-2 text-spotlight-foreground no-underline transition-colors hover:border-accent hover:text-spotlight-accent"
+            >
+              {t(`nav.${key}`)}
+              <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Container>
+</BaseLayout>
+
+<script>
+  import "../../scripts/about";
+</script>
+
+<style>
+  /* Arkadaki altın çerçeve 12 px kaymış durur; imleç fotoğrafın üzerindeyken ona doğru biraz daha kayar. */
+  .portrait-frame {
+    translate: calc(12px + var(--fx, 0px)) calc(12px + var(--fy, 0px));
+    transition: translate 0.6s var(--ease-out-expo);
+  }
+  .portrait-orbit-spin {
+    transform-origin: 64px 48px;
+    animation: orbit-spin 24s linear infinite;
+  }
+  @keyframes orbit-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .portrait-orbit-spin {
+      animation: none;
+    }
+  }
+</style>

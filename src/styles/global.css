@@ -116,6 +116,13 @@
     font-weight: 600;
     line-height: 1.15;
   }
+  /* Cormorant'ın eski stil rakamlarında "1" ile "ı" karışır (ör. "B1"); başlıklarda hizalı rakam kullanılır. */
+  h1,
+  h2,
+  h3,
+  .font-heading {
+    font-variant-numeric: lining-nums;
+  }
   a {
     @apply text-primary underline-offset-4 hover:text-primary-hover;
   }
@@ -151,6 +158,34 @@ html.js .reveal.is-visible {
   opacity: 1;
   translate: 0 0;
 }
+/* .reveal-stagger: içindeki öğeler sırayla belirir (ör. kart ızgaraları). */
+html.js .reveal-stagger > * {
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    translate 0.6s var(--ease-out-expo);
+}
+html.js .reveal-stagger.is-visible > * {
+  opacity: 1;
+  translate: 0 0;
+}
+.reveal-stagger > :nth-child(2) {
+  transition-delay: 70ms;
+}
+.reveal-stagger > :nth-child(3) {
+  transition-delay: 140ms;
+}
+.reveal-stagger > :nth-child(4) {
+  transition-delay: 210ms;
+}
+.reveal-stagger > :nth-child(5) {
+  transition-delay: 280ms;
+}
+.reveal-stagger > :nth-child(6) {
+  transition-delay: 350ms;
+}
+
 /* Filtreyle gizlenen kartlar solarak kaybolur. */
 .reveal.is-filtered-out,
 .is-filtered-out {
@@ -206,7 +241,8 @@ html.theme-reveal::view-transition-new(root) {
   @view-transition {
     navigation: none;
   }
-  html.js .reveal {
+  html.js .reveal,
+  html.js .reveal-stagger > * {
     opacity: 1;
     translate: none;
   }
