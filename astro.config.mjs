@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://mrsahiner.com",
+  site: "https://mrsahiner.github.io",
   trailingSlash: "ignore",
 
   // Varsayılan dil Türkçe ("/"), İngilizce "/en" altında.
