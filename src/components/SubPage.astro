@@ -1,0 +1,72 @@
+---
+// Alt sayfaların ortak iskeleti. Başlık, ana sayfadaki kartın başlığıyla aynı view-transition-name'i
+// taşır; karta tıklayınca başlık bu sayfaya akarak dönüşür. Sayfa içerikleri sonraki aşamada eklenecek.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "./ui/Container.astro";
+import Button from "./ui/Button.astro";
+import Badge from "./ui/Badge.astro";
+import { useTranslations } from "../i18n/utils";
+import { pathFor, type RouteKey } from "../i18n/routes";
+import type { Lang, UiKey } from "../i18n/ui";
+
+type PageKey = Exclude<RouteKey, "home">;
+
+interface Props {
+  lang: Lang;
+  page: PageKey;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+
+const meta: Record<PageKey, { eyebrow: UiKey; title: UiKey; intro: UiKey; vt: string }> = {
+  projects: {
+    eyebrow: "bento.projects.eyebrow",
+    title: "nav.projects",
+    intro: "page.projects.intro",
+    vt: "[view-transition-name:baslik-projects]",
+  },
+  about: {
+    eyebrow: "bento.about.eyebrow",
+    title: "nav.about",
+    intro: "page.about.intro",
+    vt: "[view-transition-name:baslik-about]",
+  },
+  experience: {
+    eyebrow: "bento.experience.eyebrow",
+    title: "nav.experience",
+    intro: "page.experience.intro",
+    vt: "[view-transition-name:baslik-experience]",
+  },
+  contact: {
+    eyebrow: "bento.contact.eyebrow",
+    title: "nav.contact",
+    intro: "page.contact.intro",
+    vt: "[view-transition-name:baslik-contact]",
+  },
+};
+const m = meta[page];
+---
+
+<BaseLayout title={t(m.title)} description={t(m.intro)}>
+  <Container class="py-20 sm:py-28">
+    <p class="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase">{t(m.eyebrow)}</p>
+    <h1 class:list={["mt-3 text-[clamp(3rem,8vw,5.5rem)] leading-[0.95] tracking-[-0.03em]", m.vt]}>
+      {t(m.title)}
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg text-muted">{t(m.intro)}</p>
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <Badge tone="neutral">{t("page.soon")}</Badge>
+    </div>
+    <div class="mt-10">
+      <Button
+        href={pathFor("home", lang)}
+        variant="secondary"
+        icon="arrow-right"
+        class="[&>svg:first-child]:rotate-180"
+      >
+        {t("page.back")}
+      </Button>
+    </div>
+  </Container>
+</BaseLayout>

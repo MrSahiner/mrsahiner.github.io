@@ -44,5 +44,10 @@ export const textPairs = [
   { fg: "primary-foreground", bg: "primary-hover", min: 4.5, use: "Birincil buton (üzerine gelince)" },
   { fg: "foreground", bg: "accent-soft", min: 4.5, use: "Teknoloji etiketi" },
   { fg: "danger", bg: "background", min: 4.5, use: "Hata mesajı" },
+  { fg: "spotlight-foreground", bg: "spotlight", min: 4.5, use: "Spot kart metni" },
+  { fg: "spotlight-muted", bg: "spotlight", min: 4.5, use: "Spot kart ikincil metin" },
+  { fg: "spotlight-accent", bg: "spotlight", min: 4.5, use: "Spot kart etiketi" },
+  { fg: "spotlight-muted", bg: "spotlight-nested", min: 4.5, use: "Spot kart içi kutu metni" },
+  { fg: "spotlight-accent", bg: "spotlight-nested", min: 4.5, use: "Spot kart içi kutu etiketi" },
   { fg: "accent", bg: "background", min: 0, use: "Vurgu (yalnızca süs, metinde kullanılmaz)" },
 ] as const;

@@ -1,12 +1,10 @@
 ---
-// Ana sayfa iki dilde de aynı bileşeni kullanır; metinler i18n sözlüğünden gelir.
-// Bölümlerin içeriği "İçerik ve sayfalar" aşamasında doldurulacak.
+// Ana sayfa yalnızca bir "ön yüz": hero, dört gezinme kartı ve teknoloji şeridi.
+// Ayrıntılar alt sayfalarda (Projeler, Hakkımda, Deneyim, İletişim).
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Container from "./ui/Container.astro";
-import Section from "./ui/Section.astro";
-import Button from "./ui/Button.astro";
-import Badge from "./ui/Badge.astro";
-import { useTranslations } from "../i18n/utils";
+import Hero from "./home/Hero.astro";
+import Bento from "./home/Bento.astro";
+import TechMarquee from "./home/TechMarquee.astro";
 import type { Lang } from "../i18n/ui";
 
 interface Props {
@@ -14,33 +12,16 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
-const sections = [
-  { id: "hakkimda", title: t("nav.about") },
-  { id: "projeler", title: t("nav.projects") },
-  { id: "deneyim", title: t("nav.experience") },
-  { id: "iletisim", title: t("nav.contact") },
-];
 ---
 
-<BaseLayout>
-  <Container class="pt-20 pb-24 sm:pt-28">
-    <Badge>{t("hero.badge")}</Badge>
-    <h1 class="mt-6 text-5xl sm:text-7xl">{t("site.title")}</h1>
-    <p class="mt-4 text-lg text-muted sm:text-xl">{t("hero.role")}</p>
-    <div class="mt-10 flex flex-wrap gap-3">
-      <Button href="#iletisim" icon="mail">
-        {t("hero.cta.contact")}
-      </Button>
-      <Button href="#projeler" variant="secondary" iconEnd="arrow-right">
-        {t("hero.cta.projects")}
-      </Button>
-    </div>
-  </Container>
-
-  {sections.map((s, i) => (
-    <Section id={s.id} eyebrow={String(i + 1).padStart(2, "0")} title={s.title}>
-      <p class="text-muted">{t("section.placeholder")}</p>
-    </Section>
-  ))}
+<BaseLayout minimalHeader>
+  <div class="mx-auto flex w-full max-w-[1180px] flex-col justify-center px-6 py-10 md:py-14">
+    <Hero lang={lang} />
+    <Bento lang={lang} />
+    <TechMarquee lang={lang} />
+  </div>
 </BaseLayout>
+
+<script>
+  import "../scripts/interactions";
+</script>

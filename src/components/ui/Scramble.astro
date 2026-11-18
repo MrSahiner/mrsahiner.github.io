@@ -1,0 +1,17 @@
+---
+// Mono etiketlerde "şifre çözülme" efekti: metin kısa bir süre rastgele karakterlerle karışır, sonra
+// doğru metne oturur (src/scripts/interactions.ts). Ekran okuyucu her zaman gerçek metni okur.
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className } = Astro.props;
+---
+
+<span class:list={["scramble", className]} data-scramble>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true" data-scramble-target>
+    {text}
+  </span>
+</span>

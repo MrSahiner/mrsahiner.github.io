@@ -29,6 +29,16 @@
   --danger: #b3261e;
   --success: #3f7a4a;
   --card-shadow: 0 1px 2px rgb(46 42 38 / 0.05), 0 4px 12px -6px rgb(46 42 38 / 0.08);
+  /* "Spot" kart: temanın tersine boyanan, en çok öne çıkan kart (ana sayfadaki Projeler). */
+  --spotlight: #2e2a26;
+  --spotlight-foreground: #fbf8f3;
+  --spotlight-muted: #c8c2ba;
+  --spotlight-accent: #c9a46a;
+  --spotlight-nested: #24211e;
+  --spotlight-deep: #1a1816;
+  --spotlight-border: #453f39;
+  --glow: rgb(140 109 63 / 0.28);
+  --gold-light: #f7eeda;
 }
 
 [data-theme="dark"] {
@@ -46,6 +56,15 @@
   --danger: #ef5350;
   --success: #7fbf8a;
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+  --spotlight: #f5ead8;
+  --spotlight-foreground: #1a0f08;
+  --spotlight-muted: #6b4a2e;
+  --spotlight-accent: #7a5428;
+  --spotlight-nested: #ebdcc3;
+  --spotlight-deep: #e2cfb0;
+  --spotlight-border: #c9ab83;
+  --glow: rgb(196 149 106 / 0.3);
+  --gold-light: #3d2416;
 }
 
 @theme inline {
@@ -61,6 +80,15 @@
   --color-accent-soft: var(--accent-soft);
   --color-danger: var(--danger);
   --color-success: var(--success);
+  --color-spotlight: var(--spotlight);
+  --color-spotlight-foreground: var(--spotlight-foreground);
+  --color-spotlight-muted: var(--spotlight-muted);
+  --color-spotlight-accent: var(--spotlight-accent);
+  --color-spotlight-nested: var(--spotlight-nested);
+  --color-spotlight-deep: var(--spotlight-deep);
+  --color-spotlight-border: var(--spotlight-border);
+  --color-glow: var(--glow);
+  --color-gold-light: var(--gold-light);
 
   --shadow-card: var(--card-shadow);
 
@@ -69,6 +97,9 @@
   --font-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace;
 
   --radius-card: 14px;
+
+  --ease-swift: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -99,6 +130,12 @@
   }
 }
 
+/* Zemindeki ince nokta deseni. */
+.bg-grain {
+  background-image: radial-gradient(color-mix(in srgb, var(--primary) 9%, transparent) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
 /* public/theme.js tema değiştirirken bu sınıfı kısa süreliğine ekler. */
 .theme-changing *,
 .theme-changing *::before,
@@ -106,7 +143,41 @@
   transition: none !important;
 }
 
+/*
+ * Sayfalar arası geçiş: tarayıcının kendi "view transition" özelliği (JavaScript gerekmez).
+ * Aynı view-transition-name'i taşıyan öğeler (ör. ana sayfadaki kart başlığı ve alt sayfanın başlığı)
+ * bir sayfadan diğerine akarak dönüşür. Desteklemeyen tarayıcılarda sayfa normal açılır.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: var(--ease-swift);
+}
+
+/* Tema değişimi: yeni tema, tema düğmesinden dışarı doğru büyüyen bir daire olarak açılır (public/theme.js). */
+html.theme-reveal::view-transition-old(root) {
+  animation: none;
+}
+html.theme-reveal::view-transition-new(root) {
+  animation: theme-reveal 0.55s var(--ease-out-expo);
+}
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--reveal-x, 50%) var(--reveal-y, 0%));
+  }
+  to {
+    clip-path: circle(150vmax at var(--reveal-x, 50%) var(--reveal-y, 0%));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
   html {
     scroll-behavior: auto;
   }

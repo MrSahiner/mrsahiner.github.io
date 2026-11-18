@@ -1,0 +1,420 @@
+---
+// Ana sayfadaki dört gezinme kartı. Kartların zemini imlece göre eğilir ve imlecin altında bronz bir ışık
+// gezinir (src/scripts/interactions.ts). Başlıklar alt sayfaların başlığına "akarak" dönüşür
+// (view-transition-name; global.css'teki @view-transition).
+import Icon from "../ui/Icon.astro";
+import Scramble from "../ui/Scramble.astro";
+import { useTranslations } from "../../i18n/utils";
+import { pathFor } from "../../i18n/routes";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const github = "https://github.com/MrSahiner";
+const linkedin = "https://www.linkedin.com/in/muhammed-salim-%C5%9Fahiner-663116360";
+
+const card = "bento-card group relative isolate flex h-full flex-col justify-between p-6 no-underline sm:p-8";
+const arrowChip =
+  "grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-200 [&_svg]:transition-transform [&_svg]:duration-200 group-hover:[&_svg]:translate-x-0.5 group-hover:[&_svg]:-translate-y-0.5";
+---
+
+<section class="w-full">
+  <div class="grid grid-cols-1 items-stretch gap-5 md:grid-cols-12">
+    <!-- 01 Projeler: en büyük ve ters renkli "spot" kart -->
+    <div class="bento-in bento-in-1 relative md:col-span-7">
+      <div class="absolute -inset-1.5 rounded-[20px] bg-glow opacity-80 blur-xl" aria-hidden="true"></div>
+      <a
+        href={pathFor("projects", lang)}
+        aria-labelledby="kart-projects"
+        class:list={[card, "text-spotlight-foreground hover:text-spotlight-foreground"]}
+      >
+        <span
+          class="bento-plate rounded-card border border-accent/70 bg-spotlight shadow-[0_16px_40px_-12px_var(--glow)] group-hover:border-accent"
+          aria-hidden="true"
+        >
+          <span class="bento-light"></span>
+        </span>
+        <div>
+          <div class="mb-5 flex items-start justify-between">
+            <Scramble
+              text={t("bento.projects.eyebrow")}
+              class="font-mono text-[11px] font-semibold tracking-wider text-spotlight-accent uppercase"
+            />
+            <span
+              class:list={[arrowChip, "size-10 border-accent/40 bg-spotlight-nested text-spotlight-accent"]}
+            >
+              <Icon name="arrow-up-right" class="size-5" />
+            </span>
+          </div>
+          <h2
+            id="kart-projects"
+            class="mb-1.5 text-3xl text-spotlight-foreground transition-colors group-hover:text-spotlight-accent [view-transition-name:baslik-projects]"
+          >
+            {t("nav.projects")}
+          </h2>
+          <p class="text-sm text-spotlight-muted">{t("bento.projects.text")}</p>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <!-- KutliGo: tarayıcı penceresi önizlemesi -->
+          <div class="rounded-[10px] border border-spotlight-border bg-spotlight-nested p-3.5">
+            <div
+              class="relative mb-3 flex h-24 w-full flex-col justify-between overflow-hidden rounded border border-spotlight-border bg-spotlight-deep p-2"
+              aria-hidden="true"
+            >
+              <div class="flex items-center justify-between border-b border-spotlight-border pb-1.5">
+                <div class="flex items-center gap-1">
+                  <span class="size-1.5 rounded-full bg-[#e57373]"></span>
+                  <span class="size-1.5 rounded-full bg-[#ffb74d]"></span>
+                  <span class="size-1.5 rounded-full bg-[#81c784]"></span>
+                </div>
+                <span class="font-mono text-[9px] text-spotlight-muted">kutligo.com</span>
+                <span class="rounded bg-spotlight-nested px-1 py-0.5 font-mono text-[8px] font-semibold">
+                  QR
+                </span>
+              </div>
+              <div class="pt-1">
+                <p class="font-heading text-[13px] font-semibold">KutliGo</p>
+                <p class="line-clamp-1 text-[10px] text-spotlight-muted">{t("bento.kutligo.mock")}</p>
+              </div>
+              <div class="mock-bars mt-auto flex items-center gap-1">
+                <span class="h-1.5 w-4 rounded bg-accent"></span>
+                <span class="h-1.5 w-8 rounded bg-spotlight-nested"></span>
+              </div>
+            </div>
+            <h3 class="mb-1 font-sans text-base font-semibold text-spotlight-foreground">KutliGo</h3>
+            <p class="mb-2.5 text-[13px] leading-[18px] text-spotlight-muted">{t("bento.kutligo.text")}</p>
+            <span class="font-mono text-[11px] font-medium text-spotlight-accent">Next.js · ASP.NET</span>
+          </div>
+
+          <!-- Coffee Go: telefon ekranı önizlemesi -->
+          <div class="rounded-[10px] border border-spotlight-border bg-spotlight-nested p-3.5">
+            <div
+              class="relative mb-3 flex h-24 w-full flex-col justify-between overflow-hidden rounded border border-spotlight-border bg-spotlight-deep p-2"
+              aria-hidden="true"
+            >
+              <div class="flex items-center justify-between border-b border-spotlight-border pb-1.5">
+                <span class="font-mono text-[9px] font-medium">9:41</span>
+                <span class="font-mono text-[9px] text-spotlight-muted">Multi-Lang QR</span>
+                <span class="grid size-2 place-items-center rounded-full border border-accent/60">
+                  <span class="size-1 rounded-full bg-accent"></span>
+                </span>
+              </div>
+              <div class="pt-1">
+                <p class="font-heading text-[13px] font-semibold">Coffee Go</p>
+                <p class="line-clamp-1 text-[10px] text-spotlight-muted">{t("bento.coffeego.mock")}</p>
+              </div>
+              <div class="lang-chips mt-auto flex items-center gap-1.5 font-mono text-[8px]">
+                <span class="rounded bg-spotlight-nested px-1.5 py-0.5 font-semibold">TR</span>
+                <span class="rounded bg-spotlight-nested px-1.5 py-0.5 text-spotlight-muted">EN</span>
+                <span class="rounded bg-spotlight-nested px-1.5 py-0.5 text-spotlight-muted">DE</span>
+              </div>
+            </div>
+            <h3 class="mb-1 font-sans text-base font-semibold text-spotlight-foreground">Coffee Go</h3>
+            <p class="mb-2.5 text-[13px] leading-[18px] text-spotlight-muted">{t("bento.coffeego.text")}</p>
+            <span class="font-mono text-[11px] font-medium text-spotlight-accent">
+              React Native · ASP.NET
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- 02 Hakkımda -->
+    <a
+      href={pathFor("about", lang)}
+      aria-labelledby="kart-about"
+      class:list={[card, "bento-in bento-in-2 text-foreground hover:text-foreground md:col-span-5"]}
+    >
+      <span
+        class="bento-plate rounded-card border border-border bg-surface shadow-card group-hover:border-accent"
+        aria-hidden="true"
+      >
+        <span class="bento-light"></span>
+      </span>
+      <div>
+        <div class="mb-4 flex items-start justify-between">
+          <Scramble
+            text={t("bento.about.eyebrow")}
+            class="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase"
+          />
+          <span
+            class:list={[
+              arrowChip,
+              "border-border text-muted group-hover:border-primary group-hover:bg-accent-soft/40 group-hover:text-primary",
+            ]}
+          >
+            <Icon name="arrow-up-right" class="size-[18px]" />
+          </span>
+        </div>
+        <h2
+          id="kart-about"
+          class="mb-1 text-3xl transition-colors group-hover:text-primary [view-transition-name:baslik-about]"
+        >
+          {t("nav.about")}
+        </h2>
+        <p class="text-[13px] text-muted">{t("bento.about.text")}</p>
+      </div>
+
+      <div class="my-auto flex flex-col items-center py-3 text-center">
+        <div class="relative mb-4 size-24">
+          <div
+            class="absolute -top-1.5 -left-1.5 size-24 rounded-full border-2 border-accent/70 transition-transform duration-300 group-hover:translate-x-1.5 group-hover:translate-y-1.5"
+            aria-hidden="true"
+          ></div>
+          <div class="relative grid size-24 place-items-center overflow-hidden rounded-full border border-border bg-background shadow-card">
+            <span class="font-heading text-4xl font-semibold text-primary" aria-hidden="true">
+              MŞ
+            </span>
+          </div>
+          <div
+            class="absolute right-0 bottom-0 grid size-5 place-items-center rounded-full border-2 border-surface bg-surface"
+            aria-hidden="true"
+          >
+            <span class="size-2.5 rounded-full bg-accent"></span>
+          </div>
+        </div>
+        <p class="max-w-xs text-[15px] leading-[22px] font-medium text-balance">“{t("bento.about.quote")}”</p>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-border pt-4 font-mono text-[11px] text-muted">
+        <span>{t("bento.about.metaA")}</span>
+        <span class="font-semibold text-primary">{t("bento.about.metaB")}</span>
+      </div>
+    </a>
+
+    <!-- 03 Deneyim -->
+    <a
+      href={pathFor("experience", lang)}
+      aria-labelledby="kart-experience"
+      class:list={[card, "bento-in bento-in-3 text-foreground hover:text-foreground md:col-span-5"]}
+    >
+      <span
+        class="bento-plate rounded-card border border-border bg-surface shadow-card group-hover:border-accent"
+        aria-hidden="true"
+      >
+        <span class="bento-light"></span>
+      </span>
+      <div>
+        <div class="mb-4 flex items-start justify-between">
+          <Scramble
+            text={t("bento.experience.eyebrow")}
+            class="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase"
+          />
+          <span
+            class:list={[
+              arrowChip,
+              "border-border text-muted group-hover:border-primary group-hover:bg-accent-soft/40 group-hover:text-primary",
+            ]}
+          >
+            <Icon name="arrow-up-right" class="size-[18px]" />
+          </span>
+        </div>
+        <h2
+          id="kart-experience"
+          class="mb-1 text-3xl transition-colors group-hover:text-primary [view-transition-name:baslik-experience]"
+        >
+          {t("nav.experience")}
+        </h2>
+        <p class="text-[13px] text-muted">{t("bento.experience.text")}</p>
+      </div>
+
+      <ul class="my-auto space-y-3 pt-4">
+        <li class="flex items-center justify-between rounded-[10px] border border-border bg-accent-soft p-3.5">
+          <div class="flex items-center gap-3">
+            <span class="grid size-8 shrink-0 place-items-center rounded-full border border-border bg-background text-primary">
+              <Icon name="briefcase" class="size-4" />
+            </span>
+            <div>
+              <p class="text-[13px] leading-tight font-semibold">Intellium</p>
+              <p class="mt-0.5 font-mono text-[11px] text-muted">{t("bento.experience.intern")}</p>
+            </div>
+          </div>
+          <span class="rounded border border-border bg-surface px-2.5 py-1 font-mono text-[11px] font-semibold text-primary">
+            2026
+          </span>
+        </li>
+        <li class="flex items-center justify-between rounded-[10px] border border-border bg-accent-soft p-3.5">
+          <div class="flex items-center gap-3">
+            <span class="grid size-8 shrink-0 place-items-center rounded-full border border-border bg-background text-primary">
+              <Icon name="graduation-cap" class="size-4" />
+            </span>
+            <div>
+              <p class="text-[13px] leading-tight font-semibold">{t("bento.experience.uni")}</p>
+              <p class="mt-0.5 font-mono text-[11px] text-muted">{t("bento.experience.dept")}</p>
+            </div>
+          </div>
+          <span class="rounded border border-border bg-surface px-2.5 py-1 font-mono text-[11px] font-semibold text-primary">
+            2027
+          </span>
+        </li>
+      </ul>
+
+      <div class="mt-4 flex items-center justify-between border-t border-border pt-4 font-mono text-[11px] text-muted">
+        <span>{t("bento.experience.metaA")}</span>
+        <span class="font-semibold text-primary">{t("bento.experience.metaB")}</span>
+      </div>
+    </a>
+
+    <!-- 04 İletişim: başlık kartın tamamını kaplayan bağlantıdır; profil butonları onun üstünde durur -->
+    <div class:list={[card, "bento-in bento-in-4 text-foreground md:col-span-7"]}>
+      <span
+        class="bento-plate rounded-card border border-border bg-accent-soft shadow-card group-hover:border-accent"
+        aria-hidden="true"
+      >
+        <span class="bento-light"></span>
+      </span>
+      <div>
+        <div class="mb-4 flex items-start justify-between">
+          <Scramble
+            text={t("bento.contact.eyebrow")}
+            class="font-mono text-[11px] font-semibold tracking-wider text-foreground uppercase"
+          />
+          <span
+            class:list={[arrowChip, "border-border bg-surface text-primary group-hover:border-primary"]}
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" class="size-[18px]" />
+          </span>
+        </div>
+        <h2 class="mb-2 text-4xl [view-transition-name:baslik-contact]">
+          <a
+            href={pathFor("contact", lang)}
+            class="text-foreground no-underline after:absolute after:inset-0 after:z-0 hover:text-primary"
+          >
+            {t("bento.contact.title")}
+          </a>
+        </h2>
+        <p class="max-w-md text-[13px] text-muted">{t("bento.contact.text")}</p>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-4">
+        <span class="font-mono text-sm font-medium">{t("bento.contact.profiles")}</span>
+        <div class="relative z-10 flex items-center gap-3">
+          <a
+            href={github}
+            target="_blank"
+            rel="me noopener noreferrer"
+            class="magnetic group/btn flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-2 text-foreground no-underline shadow-card transition-colors hover:border-accent hover:text-primary"
+          >
+            <Icon name="github-mark" class="size-4 transition-transform group-hover/btn:scale-110" />
+            <span class="font-mono text-[11px] font-semibold">GitHub</span>
+            <span class="sr-only">{t("newTab")}</span>
+          </a>
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="me noopener noreferrer"
+            class="magnetic group/btn flex items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-2 text-foreground no-underline shadow-card transition-colors hover:border-accent hover:text-primary"
+          >
+            <Icon name="linkedin-mark" class="size-4 transition-transform group-hover/btn:scale-110" />
+            <span class="font-mono text-[11px] font-semibold">LinkedIn</span>
+            <span class="sr-only">{t("newTab")}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Kartlar sırayla yerine oturur. */
+  .bento-in {
+    animation: card-in 0.8s var(--ease-out-expo) backwards;
+  }
+  .bento-in-1 {
+    animation-delay: 0.75s;
+  }
+  .bento-in-2 {
+    animation-delay: 0.85s;
+  }
+  .bento-in-3 {
+    animation-delay: 0.95s;
+  }
+  .bento-in-4 {
+    animation-delay: 1.05s;
+  }
+  /* Yalnızca opaklık ve kaydırma; büyütme yazıyı bulanıklaştırır. */
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      translate: 0 24px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  /* Kart zemini: arka plan, kenarlık, gölge ve imleç ışığı. Işığın konumu (--mx/--my) interactions.ts'ten gelir. */
+  .bento-plate {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .bento-light {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 70%);
+    transition: opacity 0.3s ease;
+  }
+  :global(.bento-card:hover) .bento-light {
+    opacity: 1;
+  }
+
+  /* Kart bir bütün olarak imlece göre eğilir ve 4 piksel kalkar. Açılar (--rx/--ry) interactions.ts'ten gelir.
+     Kart yalnızca imleç üzerindeyken 3D'dedir; imleç çıkınca transform "none"a döner ve tarayıcı kartı
+     yeniden düz çizer, böylece dururken yazı her zaman tam nettir. */
+  :global(.bento-card) {
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      translate 0.35s var(--ease-out-expo);
+  }
+  :global(.bento-card:hover) {
+    translate: 0 -4px;
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  }
+
+  /* Önizlemelerdeki küçük hareketler */
+  .mock-bars span:first-child {
+    transition: width 0.4s var(--ease-out-expo);
+  }
+  :global(.bento-card:hover) .mock-bars span:first-child {
+    width: 2.5rem;
+  }
+  :global(.bento-card:hover) .lang-chips span {
+    animation: chip 0.9s ease both;
+  }
+  :global(.bento-card:hover) .lang-chips span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  :global(.bento-card:hover) .lang-chips span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes chip {
+    50% {
+      background: var(--accent);
+      color: var(--spotlight-deep);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-in {
+      animation: none;
+    }
+    :global(.bento-card:hover) {
+      translate: none;
+    }
+    :global(.bento-card:hover) {
+      transform: none;
+    }
+  }
+</style>

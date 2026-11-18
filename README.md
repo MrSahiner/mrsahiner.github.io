@@ -35,12 +35,14 @@ Site http://localhost:4321 adresinde açılır.
 
 ```
 public/            olduğu gibi kopyalanan dosyalar (_headers, robots.txt, theme.js, favicon)
-src/components/    Header (mobil menü dahil), Footer, HomePage
+src/components/    Header (mobil menü dahil), Footer, HomePage, SubPage
+src/components/home/ ana sayfa: Hero (yörüngeler), Bento (gezinme kartları), TechMarquee
 src/components/ui/ tasarım sistemi: Button, Card, Tag, Badge, Section, Container, Icon
 src/design/        kontrast hesabı (WCAG)
-src/i18n/          dil sözlükleri ve yardımcılar
+src/i18n/          dil sözlükleri, iki dilli sayfa adresleri (routes.ts) ve yardımcılar
 src/layouts/       BaseLayout (meta etiketleri, hreflang, tema)
-src/pages/         sayfalar: / , /en/ , 404, /tasarim
+src/pages/         sayfalar: / , /hakkimda, /projeler, /deneyim, /iletisim (+ /en/ karşılıkları), 404, /tasarim
+src/scripts/       etkileşimler: kart eğilmesi, imleç ışığı, mıknatıs buton, şifre çözülme efekti
 src/styles/        global.css (tema renkleri ve fontlar)
 ```
 
@@ -50,6 +52,17 @@ src/styles/        global.css (tema renkleri ve fontlar)
 - `/tasarim` sayfası renkleri, kontrast oranlarını, yazı tiplerini ve bileşenleri gösterir (arama motorlarına kapalı).
 - Metin renk çiftlerinden biri WCAG AA sınırının (4,5:1) altına düşerse **build hata verir**. Çiftler `src/design/contrast.ts` içinde.
 - `--accent` yalnızca süs içindir (çizgi, nokta, ikon); metinde kullanılmaz.
+- `--spotlight-*` renkleri temanın tersine boyanan "spot" kart içindir (ana sayfadaki Projeler kartı).
+
+## Hareket
+
+- Açılış animasyonları (isim, yörüngeler, gezegenler, kartlar) yalnızca CSS'tir.
+- Kart eğilmesi, imleç ışığı, mıknatıs butonlar ve hero'daki fare derinliği yalnızca fare kullanan cihazlarda çalışır (`src/scripts/interactions.ts`).
+- Kartlar imlece göre bir bütün olarak eğilir; yalnızca imleç üzerindeyken 3D'dedir, imleç çıkınca `transform: none`'a döner ve yazı yeniden tam net çizilir. Diğer hareketli yazılarda büyütme yerine tam piksel kaydırma kullanılır.
+- Teknoloji gezegenleri SVG'deki yörünge elipsleri üzerinde döner (elips değerleri `interactions.ts` içindeki `ORBITS` ile aynı olmalı). Her zaman yazının (isim ve rol satırı) arkasından geçer; tutup çekince durur ve öne çıkar, bırakınca yörüngeye döner.
+- Sayfa geçişleri tarayıcının kendi view transition özelliğiyle yapılır; ana sayfadaki kart başlığı ile alt sayfanın başlığı aynı `view-transition-name`'i taşır.
+- Tema değişimi düğmeden dışarı doğru büyüyen bir daireyle açılır (`public/theme.js`).
+- "Hareketi azalt" tercihinde bütün animasyonlar kapanır ve içerik doğrudan son haliyle görünür.
 
 ## Yayın
 

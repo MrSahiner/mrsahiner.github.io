@@ -12,11 +12,19 @@ interface Props {
   noindex?: boolean;
   /** Sayfanın diğer dilde karşılığı var mı? Yoksa (404, tasarım sayfası) dil bağlantısı ve hreflang gösterilmez. */
   translated?: boolean;
+  /** Sade üst çubuk (yalnızca ana sayfa). */
+  minimalHeader?: boolean;
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { title, description = t("site.description"), noindex = false, translated = true } = Astro.props;
+const {
+  title,
+  description = t("site.description"),
+  noindex = false,
+  translated = true,
+  minimalHeader = false,
+} = Astro.props;
 
 const fullTitle = title ? `${title} · ${t("site.title")}` : t("site.title");
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -60,14 +68,14 @@ const alternates = (Object.keys(languages) as Lang[]).map((l) => ({
     -->
     <script is:inline src="/theme.js"></script>
   </head>
-  <body class="min-h-dvh flex flex-col">
+  <body class="bg-grain flex min-h-dvh flex-col overflow-x-clip">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-surface focus:px-4 focus:py-2"
     >
       {t("nav.skip")}
     </a>
-    <Header lang={lang} showLangSwitch={translated} />
+    <Header lang={lang} showLangSwitch={translated} minimal={minimalHeader} />
     <main id="main" class="flex-1">
       <slot />
     </main>

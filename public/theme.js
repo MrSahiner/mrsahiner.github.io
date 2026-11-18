@@ -35,7 +35,24 @@
     var button = event.target instanceof Element ? event.target.closest("[data-theme-toggle]") : null;
     if (!button) return;
     var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    apply(next);
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (document.startViewTransition && !reduce) {
+      // Yeni tema, düğmeden dışarı doğru büyüyen bir daireyle açılır (global.css: theme-reveal).
+      var rect = button.getBoundingClientRect();
+      root.style.setProperty("--reveal-x", rect.left + rect.width / 2 + "px");
+      root.style.setProperty("--reveal-y", rect.top + rect.height / 2 + "px");
+      root.classList.add("theme-reveal");
+      var transition = document.startViewTransition(function () {
+        apply(next);
+      });
+      // Geçiş atlanırsa (sekme arka plandaysa vb.) ready reddedilir; tema yine de uygulanır, hata gösterilmez.
+      transition.ready.catch(function () {});
+      transition.finished.finally(function () {
+        root.classList.remove("theme-reveal");
+      });
+    } else {
+      apply(next);
+    }
     try {
       localStorage.setItem(KEY, next);
     } catch (e) {

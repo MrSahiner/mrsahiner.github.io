@@ -1,4 +1,5 @@
 import { defaultLang, languages, ui, type Lang, type UiKey } from "./ui";
+import { findRoute, pathFor } from "./routes";
 
 export function getLangFromUrl(url: URL): Lang {
   const [, first] = url.pathname.split("/");
@@ -9,10 +10,7 @@ export function useTranslations(lang: Lang) {
   return (key: UiKey): string => ui[lang][key];
 }
 
-/** Aynı sayfanın diğer dildeki yolu ("/" <-> "/en/"). */
+/** Aynı sayfanın diğer dildeki adresi (ör. "/projeler/" <-> "/en/projects/"). Bilinmeyen sayfada ana sayfa. */
 export function getAlternatePath(url: URL, target: Lang): string {
-  const current = getLangFromUrl(url);
-  const rest =
-    current === defaultLang ? url.pathname : url.pathname.replace(new RegExp(`^/${current}`), "") || "/";
-  return target === defaultLang ? rest : `/${target}${rest === "/" ? "/" : rest}`;
+  return pathFor(findRoute(url.pathname) ?? "home", target);
 }

@@ -1,0 +1,391 @@
+---
+// Ana sayfa hero'su: iki satırlık dev isim, ismin etrafındaki yörüngeler ve teknoloji "gezegenleri",
+// sağda güneş gibi duran altın çember. Açılış animasyonları yalnızca CSS ile yapılır.
+import { useTranslations } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Konumlar ekran genişliğine göre sınıflarla verilir (CSP satır içi stile izin vermez).
+const planets = [
+  {
+    name: "Next.js",
+    pos: "-top-4 sm:-top-6 left-4 sm:left-12",
+    tone: "bg-background text-primary",
+    show: "",
+  },
+  { name: "React", pos: "-top-5 sm:-top-7 right-8 sm:right-28", tone: "bg-surface text-primary", show: "" },
+  {
+    name: "TypeScript",
+    pos: "top-20 sm:top-24 -right-2 sm:-right-4",
+    tone: "bg-background text-foreground",
+    show: "hidden sm:block",
+  },
+  {
+    name: "ASP.NET Core",
+    pos: "top-[180px] sm:top-[200px] left-2 sm:left-8",
+    tone: "bg-surface text-primary",
+    show: "hidden sm:block lg:hidden xl:block",
+  },
+  {
+    name: "PostgreSQL",
+    pos: "-bottom-7 sm:-bottom-9 left-1/3",
+    tone: "bg-background text-foreground",
+    show: "hidden md:block",
+  },
+  {
+    name: "Docker",
+    pos: "-bottom-6 sm:-bottom-8 right-6 sm:right-16",
+    tone: "bg-surface text-primary",
+    show: "hidden sm:block",
+  },
+];
+---
+
+<section class="hero relative grid w-full grid-cols-1 items-center gap-8 pb-10 md:pb-14 lg:grid-cols-12">
+  <div class="orbit-col relative flex flex-col items-start text-left lg:col-span-8">
+    <!-- Yörüngeler: ismin arkasında ve çevresinde -->
+    <div
+      class="depth depth-orbits pointer-events-none absolute -inset-x-8 -inset-y-12 z-0 overflow-visible sm:-inset-x-12 sm:-inset-y-16"
+      aria-hidden="true"
+    >
+      <svg
+        class="orbit-svg h-full min-h-[380px] w-full overflow-visible"
+        viewBox="0 0 800 380"
+        fill="none"
+        preserveAspectRatio="none"
+      >
+        <ellipse
+          class="orbit-fade stroke-accent opacity-60"
+          cx="380"
+          cy="190"
+          rx="360"
+          ry="120"
+          stroke-width="1.2"
+          stroke-dasharray="5 7"
+          vector-effect="non-scaling-stroke"
+        ></ellipse>
+        <ellipse
+          class="orbit-draw stroke-accent"
+          cx="400"
+          cy="180"
+          rx="390"
+          ry="155"
+          transform="rotate(-6 400 180)"
+          stroke-width="1"
+          pathLength="1"
+        ></ellipse>
+        <ellipse
+          class="orbit-fade orbit-fade-late stroke-primary opacity-50"
+          cx="420"
+          cy="190"
+          rx="410"
+          ry="175"
+          transform="rotate(4 420 190)"
+          stroke-width="1"
+          stroke-dasharray="3 9"
+          vector-effect="non-scaling-stroke"
+        ></ellipse>
+      </svg>
+    </div>
+
+    <!-- Teknoloji gezegenleri: büyük yörünge çizgilerinin üzerinde, her zaman yazının arkasından geçerek döner.
+         Tutup çekince durur, bırakınca yörüngedeki yerine döner (src/scripts/interactions.ts).
+         Script çalışmazsa veya hareket azaltılmışsa sınıflardaki sabit konumlarda durur. -->
+    <ul class="contents" aria-label={t("hero.techLabel")}>
+      {planets.map((p, i) => (
+        <li class:list={["planet absolute z-[5]", `planet-${i + 1}`, p.pos, p.show]}>
+          <span class="planet-pos block">
+            <span class="planet-depth block">
+              <span
+                data-planet
+                class:list={[
+                  "planet-pill inline-flex cursor-grab touch-none whitespace-nowrap items-center gap-1.5 rounded-full border border-accent px-2.5 py-1 font-mono text-[11px] font-semibold tracking-wide shadow-card transition-colors duration-200 select-none hover:border-primary hover:bg-accent-soft active:cursor-grabbing",
+                  p.tone,
+                ]}
+              >
+                <span
+                  class:list={["size-1.5 rounded-full", i % 2 ? "bg-primary" : "bg-accent"]}
+                  aria-hidden="true"
+                />
+                {p.name}
+              </span>
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <h1 class="relative z-10 mb-6 pt-3 text-[clamp(2.75rem,9vw,6rem)] leading-[0.95] tracking-[-0.03em]">
+      <span class="reveal-line block overflow-hidden pb-[0.08em]">
+        <span class="block">{t("hero.name1")}</span>
+      </span>
+      <span class="reveal-line reveal-line-2 block overflow-hidden pb-[0.08em]">
+        <span class="block text-primary">{t("hero.name2")}</span>
+      </span>
+    </h1>
+
+    <div class="fade-up relative z-30 mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <p class="flex flex-wrap items-center gap-2 text-lg text-muted">
+        <span class="font-medium text-foreground">{t("hero.roleA")}</span>
+        <span class="inline-block size-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+        <span>{t("hero.roleB")}</span>
+      </p>
+      <p class="inline-flex w-fit items-center gap-2.5 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-medium text-foreground shadow-card">
+        <span class="relative flex size-2.5" aria-hidden="true">
+          <span class="ping absolute inline-flex size-full rounded-full bg-accent opacity-60"></span>
+          <span class="relative inline-flex size-2.5 rounded-full bg-accent"></span>
+        </span>
+        {t("hero.available")}
+      </p>
+    </div>
+  </div>
+
+  <!-- Güneş: altın çember, eğik yörünge ve dönen düğümler -->
+  <div class="relative flex items-center justify-center lg:col-span-4 lg:justify-end" aria-hidden="true">
+    <div class="sun depth depth-sun relative flex size-[280px] items-center justify-center sm:size-[320px]">
+      <div class="drift absolute inset-0 scale-90 rounded-full bg-accent-soft blur-2xl"></div>
+      <div class="drift drift-reverse absolute size-44 rounded-full bg-gold-light/60 blur-xl"></div>
+      <svg class="relative z-10 size-full overflow-visible" viewBox="0 0 320 320" fill="none">
+        <circle
+          class="spin-slow stroke-accent opacity-70"
+          cx="160"
+          cy="160"
+          r="148"
+          stroke-width="1.5"
+          stroke-dasharray="6 8"
+        ></circle>
+        <circle
+          class="orbit-draw orbit-draw-sun stroke-accent"
+          cx="160"
+          cy="160"
+          r="114"
+          stroke-width="2"
+          pathLength="1"
+        ></circle>
+        <g class="spin">
+          <ellipse
+            class="stroke-primary opacity-80"
+            cx="160"
+            cy="160"
+            rx="140"
+            ry="68"
+            transform="rotate(-28 160 160)"
+            stroke-width="1.5"
+          ></ellipse>
+          <circle class="fill-accent" cx="274" cy="160" r="4.5"></circle>
+          <circle class="fill-primary" cx="70" cy="110" r="3.5"></circle>
+          <circle class="fill-accent" cx="210" cy="265" r="3"></circle>
+        </g>
+        <circle class="fill-surface stroke-border" cx="160" cy="160" r="42" stroke-width="1.5"></circle>
+        <text
+          x="160"
+          y="167"
+          text-anchor="middle"
+          class="fill-foreground font-heading text-[24px] font-semibold"
+          font-family="'Cormorant Garamond', Georgia, serif"
+        >
+          MS
+        </text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* İsim satırları aşağıdan yükselir. */
+  .reveal-line > span {
+    transform: translateY(105%);
+    animation: rise 0.9s var(--ease-out-expo) 0.15s forwards;
+  }
+  .reveal-line-2 > span {
+    animation-delay: 0.3s;
+  }
+  @keyframes rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fade-up 0.7s var(--ease-out-expo) 0.65s forwards;
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Düz yörüngeler kendini çizer, kesik çizgili olanlar yavaşça belirir. */
+  .orbit-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.8s var(--ease-out-expo) 0.2s forwards;
+  }
+  .orbit-draw-sun {
+    animation-delay: 0.5s;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .orbit-fade {
+    animation: fade-in 1.2s ease 0.4s both;
+  }
+  .orbit-fade-late {
+    animation-delay: 0.8s;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Gezegenler sırayla belirir (yalnızca opaklık ve kaydırma; büyütme yazıyı bulanıklaştırır). */
+  .planet {
+    animation: pop 0.6s var(--ease-out-expo) var(--d, 0.9s) backwards;
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      translate: 0 10px;
+    }
+  }
+
+  /* Fare derinliği: --px/--py hero'ya interactions.ts tarafından verilir, her katman farklı oranda kayar. */
+  .depth,
+  .planet-depth {
+    translate: calc(var(--px, 0px) * var(--depth, 0)) calc(var(--py, 0px) * var(--depth, 0));
+    transition: translate 0.9s var(--ease-out-expo);
+  }
+  .depth-orbits {
+    --depth: -0.35;
+  }
+  .depth-sun {
+    --depth: -0.6;
+  }
+
+  /* Canlı yörünge: interactions.ts sütuna .orbit-live ekler ve her gezegenin konumunu .planet-pos
+     üzerinden tam piksel kaydırmayla verir. */
+  .orbit-live .planet {
+    top: 0;
+    right: auto;
+    bottom: auto;
+    left: 0;
+  }
+  .planet-pos {
+    transition: opacity 0.3s ease;
+  }
+
+  .planet-1 {
+    --d: 0.85s;
+    --depth: 0.9;
+  }
+  .planet-2 {
+    --d: 0.95s;
+    --depth: 1.3;
+  }
+  .planet-3 {
+    --d: 1.05s;
+    --depth: 0.7;
+  }
+  .planet-4 {
+    --d: 1.15s;
+    --depth: 1.1;
+  }
+  .planet-5 {
+    --d: 1.25s;
+    --depth: 1.5;
+  }
+  .planet-6 {
+    --d: 1.35s;
+    --depth: 0.8;
+  }
+
+  /* Sürüklenen gezegen öne çıkar; bırakınca interactions.ts yaylanarak geri getirir. */
+  .planet-pill[data-dragging] {
+    position: relative;
+    z-index: 30;
+    box-shadow: 0 12px 28px -10px var(--glow);
+  }
+  .planet-pill.bump {
+    animation: bump 0.5s var(--ease-out-expo);
+  }
+  @keyframes bump {
+    40% {
+      translate: 0 -8px;
+    }
+  }
+
+  /* Güneş kompozisyonu */
+  .spin {
+    transform-origin: 160px 160px;
+    animation: spin 40s linear infinite;
+  }
+  .spin-slow {
+    transform-origin: 160px 160px;
+    animation: spin 120s linear infinite reverse;
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  .drift {
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .drift-reverse {
+    animation-direction: alternate-reverse;
+    animation-duration: 9s;
+  }
+  @keyframes drift {
+    to {
+      translate: 14px -10px;
+      scale: 1.08;
+    }
+  }
+  .ping {
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  /* Hareket azaltma tercihinde her şey son haliyle, hareketsiz görünür. */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-line > span,
+    .fade-up,
+    .planet,
+    .orbit-fade {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .orbit-draw {
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+    .spin,
+    .spin-slow,
+    .drift,
+    .ping {
+      animation: none;
+    }
+  }
+</style>
