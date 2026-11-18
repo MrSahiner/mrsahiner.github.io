@@ -323,3 +323,6 @@ if (!reduceMotion) {
     setupParallax();
   }
 }
+
+// Dosyayı modül yapar: değişkenler başka script dosyalarıyla çakışmaz.
+export {};

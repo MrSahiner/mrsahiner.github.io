@@ -1,0 +1,129 @@
+---
+// Projeler sayfasındaki büyük proje vitrini. "spotlight" ters renkli kart (ilk proje), "surface" açık kart.
+// Kart kaydırınca belirir; içindeki mockup katmanları imlece göre derinlik kazanır (src/scripts/projects.ts).
+import Icon from "../ui/Icon.astro";
+import Button from "../ui/Button.astro";
+import KutligoMockup from "./KutligoMockup.astro";
+import CoffeeGoMockup from "./CoffeeGoMockup.astro";
+import { useTranslations } from "../../i18n/utils";
+import { pathFor } from "../../i18n/routes";
+import type { Lang } from "../../i18n/ui";
+import type { Project } from "../../data/projects";
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  variant: "spotlight" | "surface";
+  reverse?: boolean;
+}
+
+const { project: p, lang, variant, reverse = false } = Astro.props;
+const t = useTranslations(lang);
+const spot = variant === "spotlight";
+
+// Tailwind sınıfları birebir yazılı olmalı; başlık, detay sayfasının başlığına akarak dönüşür.
+const titleTransition: Record<Project["slug"], string> = {
+  kutligo: "[view-transition-name:proje-kutligo]",
+  "coffee-go": "[view-transition-name:proje-coffee-go]",
+};
+
+const c = spot
+  ? {
+      card: "border-spotlight-border bg-spotlight text-spotlight-foreground shadow-[0_24px_60px_-24px_var(--glow)]",
+      title: "text-spotlight-foreground",
+      label: "text-spotlight-accent",
+      muted: "text-spotlight-muted",
+      rule: "border-spotlight-border",
+      chip: "border-spotlight-border bg-spotlight-nested",
+      icon: "bg-spotlight-nested text-spotlight-accent",
+    }
+  : {
+      card: "border-border bg-surface text-foreground shadow-card",
+      title: "text-foreground",
+      label: "text-primary",
+      muted: "text-muted",
+      rule: "border-border",
+      chip: "border-border bg-background",
+      icon: "bg-accent-soft text-primary",
+    };
+const detailHref = pathFor(p.route, lang);
+const headingId = `proje-${p.slug}-baslik`;
+---
+
+<article
+  data-project
+  data-categories={p.categories.join(" ")}
+  aria-labelledby={headingId}
+  class:list={[
+    "showcase reveal relative w-full overflow-hidden rounded-card border p-6 sm:p-10 md:p-12",
+    c.card,
+  ]}
+>
+  {spot && (
+    <div
+      class="pointer-events-none absolute -top-24 -left-24 size-96 rounded-full bg-primary/15 opacity-70 blur-3xl"
+      aria-hidden="true"
+    />
+  )}
+
+  <div class="relative z-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class:list={["lg:col-span-6", reverse && "lg:order-2"]}>
+      {p.slug === "kutligo" ? <KutligoMockup /> : <CoffeeGoMockup />}
+    </div>
+
+    <div
+      class:list={["flex flex-col items-start space-y-4 text-left lg:col-span-6", reverse && "lg:order-1"]}
+    >
+      <p class:list={["font-mono text-[11px] font-semibold tracking-wider uppercase", c.label]}>
+        {p.meta[lang]}
+      </p>
+
+      <div>
+        <h2 id={headingId} class:list={["mb-2 text-[38px] sm:text-[44px]", c.title, titleTransition[p.slug]]}>
+          {p.name}
+        </h2>
+        <p class:list={["inline-flex items-center gap-2 rounded-full border px-3 py-1", c.chip]}>
+          <span class="size-2 animate-pulse rounded-full bg-accent" aria-hidden="true"></span>
+          <span class="font-mono text-[11px] font-medium">{p.status[lang]}</span>
+        </p>
+      </div>
+
+      <p class:list={["text-lg leading-relaxed", c.muted]}>{p.pitch[lang]}</p>
+
+      <ul class:list={["w-full space-y-2.5 border-t pt-4", c.rule]}>
+        {p.features.map((f) => (
+          <li class="flex items-start gap-3">
+            <span class:list={["mt-0.5 grid size-6 shrink-0 place-items-center rounded-full", c.icon]}>
+              <Icon name={f.icon} class="size-3.5" />
+            </span>
+            <span class="text-[13px] leading-[20px]">{f.text[lang]}</span>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="flex flex-wrap items-center gap-2 pt-1" aria-label={t("projects.tags")}>
+        {p.tags.map((tag) => (
+          <li class:list={["rounded border px-2.5 py-1 font-mono text-[11px] font-medium", c.chip]}>{tag}</li>
+        ))}
+      </ul>
+
+      <div class="pt-3">
+        {spot ? (
+          <a
+            href={detailHref}
+            class="group inline-flex h-12 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground no-underline shadow-card transition-colors hover:bg-primary-hover hover:text-primary-foreground dark:bg-spotlight-foreground dark:text-spotlight dark:hover:bg-spotlight-accent dark:hover:text-spotlight"
+          >
+            {t("projects.detail")}
+            <Icon name="arrow-right" class="size-[18px] transition-transform group-hover:translate-x-1" />
+            <span class="sr-only">: {p.name}</span>
+          </a>
+        ) : (
+          <Button href={detailHref} variant="secondary" iconEnd="arrow-right" class="h-12 rounded-full px-6">
+            {t("projects.detail")}
+            <span class="sr-only">: {p.name}</span>
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+</article>

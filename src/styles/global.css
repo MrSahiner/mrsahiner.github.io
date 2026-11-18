@@ -136,6 +136,34 @@
   background-size: 24px 24px;
 }
 
+/*
+ * Kaydırınca belirme: yalnızca JavaScript çalışıyorsa gizlenir (html.js, public/theme.js ekler);
+ * script çalışmazsa içerik doğrudan görünür. Görünür olunca .is-visible eklenir.
+ */
+html.js .reveal {
+  opacity: 0;
+  translate: 0 32px;
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    translate 0.8s var(--ease-out-expo);
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+/* Filtreyle gizlenen kartlar solarak kaybolur. */
+.reveal.is-filtered-out,
+.is-filtered-out {
+  opacity: 0 !important;
+  translate: 0 12px !important;
+}
+
+/* Mockup katmanları: --mx/--my kart üzerindeki imlece göre, --depth katmanın derinliği. */
+.mockup-layer {
+  translate: calc(var(--mx, 0px) * var(--depth, 1)) calc(var(--my, 0px) * var(--depth, 1));
+  transition: translate 0.7s var(--ease-out-expo);
+}
+
 /* public/theme.js tema değiştirirken bu sınıfı kısa süreliğine ekler. */
 .theme-changing *,
 .theme-changing *::before,
@@ -177,6 +205,10 @@ html.theme-reveal::view-transition-new(root) {
 @media (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: none;
+  }
+  html.js .reveal {
+    opacity: 1;
+    translate: none;
   }
   html {
     scroll-behavior: auto;

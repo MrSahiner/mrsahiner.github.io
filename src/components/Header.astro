@@ -1,7 +1,7 @@
 ---
 import Icon from "./ui/Icon.astro";
 import { getAlternatePath, useTranslations } from "../i18n/utils";
-import { findRoute, pathFor } from "../i18n/routes";
+import { findRoute, pathFor, sectionOf } from "../i18n/routes";
 import type { Lang } from "../i18n/ui";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const { lang, showLangSwitch = true, minimal = false } = Astro.props;
 const t = useTranslations(lang);
-const current = findRoute(Astro.url.pathname);
+const current = sectionOf(findRoute(Astro.url.pathname));
 const otherLang: Lang = lang === "tr" ? "en" : "tr";
 const links = (["projects", "about", "experience", "contact"] as const).map((key) => ({
   key,
@@ -37,13 +37,14 @@ const links = (["projects", "about", "experience", "contact"] as const).map((key
 
     {!minimal && (
       <nav aria-label={t("nav.label")} class="hidden md:block">
-        <ul class="flex items-center gap-1 text-sm">
-          {links.map((l) => (
-            <li>
+        <ul class="flex items-center gap-2 text-xs font-medium">
+          {links.map((l, i) => (
+            <li class="flex items-center gap-2">
+              {i > 0 && <span class="size-1 rounded-full bg-accent" aria-hidden="true" />}
               <a
                 href={l.href}
                 aria-current={current === l.key ? "page" : undefined}
-                class="rounded-full px-3.5 py-1.5 text-muted no-underline transition-colors hover:text-foreground aria-[current=page]:bg-accent-soft aria-[current=page]:text-foreground"
+                class="rounded-full border border-transparent px-3.5 py-1.5 text-muted no-underline transition-colors hover:bg-surface hover:text-foreground aria-[current=page]:border-border aria-[current=page]:bg-accent-soft aria-[current=page]:font-semibold aria-[current=page]:text-foreground"
               >
                 {l.label}
               </a>

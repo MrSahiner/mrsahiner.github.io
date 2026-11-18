@@ -1,0 +1,95 @@
+---
+// Coffee Go önizlemesi: çevrilen QR menü (telefon) ve yakındaki mekanlar haritası (küçük kart).
+// Tema değişkenlerini kullanır; aydınlık ve karanlık temada kendiliğinden uyum sağlar.
+import Icon from "../ui/Icon.astro";
+---
+
+<div class="relative flex items-center justify-center py-4" aria-hidden="true">
+  <div class="mockup-layer relative z-10 w-56 rounded-2xl border-2 border-border bg-background p-3 shadow-xl [--depth:0.5] sm:w-64">
+    <div class="flex items-center justify-between border-b border-border pb-2">
+      <span class="font-mono text-[10px] font-medium">9:41</span>
+      <span class="h-3 w-12 rounded-full bg-border/60"></span>
+      <span class="size-1.5 rounded-full bg-accent"></span>
+    </div>
+
+    <div class="flex items-center justify-between border-b border-border/80 py-2">
+      <div class="lang-chips flex items-center gap-1 font-mono text-[9px]">
+        <span class="rounded bg-primary px-2 py-0.5 font-semibold text-primary-foreground">TR</span>
+        <span class="rounded border border-border bg-surface px-1.5 py-0.5">EN</span>
+        <span class="rounded border border-border bg-surface px-1.5 py-0.5">DE</span>
+        <span class="rounded border border-border bg-surface px-1.5 py-0.5">AR</span>
+      </div>
+      <span class="font-mono text-[9px] font-semibold text-primary">Auto-TR</span>
+    </div>
+
+    <div class="space-y-2.5 py-3">
+      <div class="flex items-center justify-between rounded border border-border bg-surface p-2">
+        <div>
+          <p class="text-[13px] leading-tight font-semibold">Flat White</p>
+          <p class="text-[10px] text-muted">Çift shot espresso &amp; mikro köpük</p>
+        </div>
+        <span class="font-mono text-[11px] font-semibold text-primary">₺95</span>
+      </div>
+      <div class="flex items-center justify-between rounded border border-border bg-surface p-2">
+        <div>
+          <p class="text-[13px] leading-tight font-semibold">San Sebastian</p>
+          <p class="text-[10px] text-muted">Karamelize Belçika çikolatası</p>
+        </div>
+        <span class="font-mono text-[11px] font-semibold text-primary">₺140</span>
+      </div>
+    </div>
+
+    <div class="rounded bg-accent-soft p-1.5 text-center font-mono text-[9px]">
+      Masa #04 · Artisan Roastery
+    </div>
+  </div>
+
+  <!-- Yakındaki mekanlar -->
+  <div class="mockup-layer absolute -bottom-4 -left-2 z-20 w-44 rounded-xl border border-border bg-surface p-2.5 shadow-2xl [--depth:1.2] sm:-left-4 sm:w-48">
+    <div class="flex items-center justify-between border-b border-border pb-1.5">
+      <span class="font-mono text-[9px] font-semibold text-primary">Yakındaki Mekanlar</span>
+      <Icon name="navigation" class="size-3 text-primary" />
+    </div>
+    <div class="relative my-1.5 h-20 w-full overflow-hidden rounded border border-border/70 bg-accent-soft">
+      <svg class="size-full" viewBox="0 0 160 80" fill="none" preserveAspectRatio="none">
+        <path class="stroke-border" d="M0 30 Q 80 10 160 40" stroke-width="6"></path>
+        <path class="stroke-border" d="M40 0 Q 70 80 120 80" stroke-width="5"></path>
+        <circle class="map-pin fill-primary" cx="80" cy="35" r="5"></circle>
+        <circle class="map-pin map-pin-2 fill-accent" cx="120" cy="55" r="4"></circle>
+        <circle class="map-pin map-pin-3 fill-accent" cx="36" cy="52" r="3"></circle>
+      </svg>
+      <div class="absolute bottom-1 left-1.5 rounded bg-surface px-1.5 py-0.5 font-mono text-[8px] font-medium shadow-card">
+        3 mekan bulundu
+      </div>
+    </div>
+    <div class="flex items-center justify-between pt-0.5 font-mono text-[10px] text-muted">
+      <span>PostGIS Radius</span>
+      <span class="font-semibold text-primary">850m</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Haritadaki işaretler sırayla nabız gibi atar. */
+  .map-pin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pin 2.4s ease-in-out infinite;
+  }
+  .map-pin-2 {
+    animation-delay: 0.8s;
+  }
+  .map-pin-3 {
+    animation-delay: 1.6s;
+  }
+  @keyframes pin {
+    50% {
+      opacity: 0.45;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-pin {
+      animation: none;
+    }
+  }
+</style>

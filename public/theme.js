@@ -2,6 +2,8 @@
 (function () {
   var KEY = "theme";
   var root = document.documentElement;
+  // JavaScript çalışıyor: kaydırınca belirme gibi efektler bu sınıfa bağlıdır (global.css).
+  root.classList.add("js");
 
   function stored() {
     try {

@@ -1,0 +1,58 @@
+---
+// KutliGo önizlemesi: davetiye sayfası (tarayıcı) ve QR fotoğraf yükleme ekranı (telefon).
+// Spot kartın içinde durur; renkleri spot kart değişkenlerinden alır, iki temada da çalışır.
+// .mockup-layer katmanları imlece göre farklı derinlikte kayar (src/scripts/projects.ts).
+import Icon from "../ui/Icon.astro";
+---
+
+<div class="relative flex items-center justify-center py-4" aria-hidden="true">
+  <div class="mockup-layer w-full max-w-md overflow-hidden rounded-[10px] border border-spotlight-border bg-spotlight-nested shadow-2xl [--depth:0.5]">
+    <div class="flex items-center justify-between border-b border-spotlight-border bg-spotlight-deep px-3.5 py-2.5">
+      <div class="flex items-center gap-1.5">
+        <span class="size-2.5 rounded-full bg-[#e57373]"></span>
+        <span class="size-2.5 rounded-full bg-[#ffb74d]"></span>
+        <span class="size-2.5 rounded-full bg-[#81c784]"></span>
+      </div>
+      <div class="mx-2 min-w-0 truncate rounded border border-spotlight-border bg-spotlight-nested px-3 py-0.5 font-mono text-[10px] tracking-tight text-spotlight-muted">
+        kutligo.com/davetiye/zeynep-mert
+      </div>
+      <span class="size-2.5 rounded-full bg-accent"></span>
+    </div>
+
+    <!-- Davetiye kâğıdı: iki temada da açık krem -->
+    <div class="space-y-4 bg-[#fbf8f3] p-6 text-center text-[#2e2a26] dark:bg-[#faf2e6]">
+      <div class="inline-block rounded-full border border-[#e7e1d8] bg-white px-2.5 py-0.5 font-mono text-[10px] font-semibold tracking-wider text-[#8c6d3f] uppercase">
+        Düğün Davetiyesi
+      </div>
+      <div>
+        <p class="font-heading text-[28px] leading-tight font-semibold">Zeynep &amp; Mert</p>
+        <p class="mt-1 text-[13px] text-[#6e6861]">
+          Bu özel günümüzde sizleri aramızda görmekten mutluluk duyarız.
+        </p>
+      </div>
+      <div class="flex items-center justify-center pt-2">
+        <div class="rounded border border-[#e7e1d8] bg-white px-4 py-2.5 text-center">
+          <span class="block font-mono text-[11px] font-semibold text-[#8c6d3f]">14 AĞU 2026</span>
+          <span class="block text-[11px]">Hesapsız LCV</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Telefon: QR ile fotoğraf yükleme -->
+  <div class="mockup-layer absolute -right-2 -bottom-4 w-40 rounded-2xl border-2 border-accent/70 bg-spotlight p-2.5 shadow-2xl [--depth:1.2] sm:-right-4 sm:w-48">
+    <div class="space-y-2 rounded-xl border border-spotlight-border bg-spotlight-deep p-3 text-center">
+      <div class="flex items-center justify-between border-b border-spotlight-border pb-1">
+        <span class="font-mono text-[9px] font-semibold text-spotlight-accent">QR ALBÜM</span>
+        <span class="size-1.5 rounded-full bg-[#81c784]"></span>
+      </div>
+      <div class="mx-auto grid size-12 place-items-center rounded-lg border border-[#e7e1d8] bg-white text-[#2e2a26]">
+        <Icon name="qr-code" class="size-7" />
+      </div>
+      <p class="text-[10px] leading-tight font-semibold text-spotlight-foreground">Anında Fotoğraf Yükle</p>
+      <span class="inline-block rounded bg-spotlight-nested px-2 py-0.5 font-mono text-[8px] font-semibold text-spotlight-foreground">
+        Uygulamasız
+      </span>
+    </div>
+  </div>
+</div>

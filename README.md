@@ -37,12 +37,14 @@ Site http://localhost:4321 adresinde açılır.
 public/            olduğu gibi kopyalanan dosyalar (_headers, robots.txt, theme.js, favicon)
 src/components/    Header (mobil menü dahil), Footer, HomePage, SubPage
 src/components/home/ ana sayfa: Hero (yörüngeler), Bento (gezinme kartları), TechMarquee
+src/components/projects/ Projeler sayfası, proje vitrinleri, mockup'lar ve proje detay sayfası
+src/data/          proje içerikleri (iki dilde): yeni proje eklemek için projects.ts
 src/components/ui/ tasarım sistemi: Button, Card, Tag, Badge, Section, Container, Icon
 src/design/        kontrast hesabı (WCAG)
 src/i18n/          dil sözlükleri, iki dilli sayfa adresleri (routes.ts) ve yardımcılar
 src/layouts/       BaseLayout (meta etiketleri, hreflang, tema)
-src/pages/         sayfalar: / , /hakkimda, /projeler, /deneyim, /iletisim (+ /en/ karşılıkları), 404, /tasarim
-src/scripts/       etkileşimler: kart eğilmesi, imleç ışığı, mıknatıs buton, şifre çözülme efekti
+src/pages/         sayfalar: / , /hakkimda, /projeler (+ /kutligo, /coffee-go), /deneyim, /iletisim (+ /en/ karşılıkları), 404, /tasarim
+src/scripts/       etkileşimler: interactions.ts (ana sayfa), projects.ts (filtreler, kaydırınca belirme, mockup derinliği)
 src/styles/        global.css (tema renkleri ve fontlar)
 ```
 

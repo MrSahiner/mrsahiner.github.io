@@ -1,0 +1,155 @@
+---
+// Projeler sayfası: başlık, çalışan filtreler, proje vitrinleri ve "daha fazlası yolda" bandı.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../ui/Container.astro";
+import Icon from "../ui/Icon.astro";
+import ProjectShowcase from "./ProjectShowcase.astro";
+import { projects, type Category } from "../../data/projects";
+import { useTranslations } from "../../i18n/utils";
+import { pathFor } from "../../i18n/routes";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const filters: { value: "all" | Category; label: string }[] = [
+  { value: "all", label: t("projects.filter.all") },
+  { value: "web", label: t("projects.filter.web") },
+  { value: "mobile", label: t("projects.filter.mobile") },
+  { value: "backend", label: t("projects.filter.backend") },
+];
+---
+
+<BaseLayout title={t("nav.projects")} description={t("projects.intro")}>
+  <Container class="space-y-12 py-10 md:space-y-16 md:py-14">
+    <section class="border-b border-border pb-8 md:pb-10">
+      <div class="mb-8 grid grid-cols-1 items-end gap-6 lg:grid-cols-12">
+        <div class="flex flex-col items-start lg:col-span-8">
+          <p class="mb-3 font-mono text-[11px] font-semibold tracking-widest text-primary uppercase">
+            {t("bento.projects.eyebrow")}
+          </p>
+          <h1 class="mb-4 text-[clamp(3rem,9vw,6rem)] leading-[0.95] tracking-[-0.03em] [view-transition-name:baslik-projects]">
+            {t("nav.projects")}
+          </h1>
+          <p class="max-w-xl text-lg text-muted">{t("projects.intro")}</p>
+        </div>
+
+        <div class="hidden items-center justify-end sm:flex lg:col-span-4" aria-hidden="true">
+          <svg class="header-orbit h-28 w-36 overflow-visible" viewBox="0 0 144 112" fill="none">
+            <ellipse
+              class="stroke-accent opacity-70"
+              cx="72"
+              cy="56"
+              rx="64"
+              ry="34"
+              transform="rotate(-12 72 56)"
+              stroke-width="1.2"
+              stroke-dasharray="4 6"
+            ></ellipse>
+            <ellipse
+              class="stroke-primary opacity-80"
+              cx="72"
+              cy="56"
+              rx="46"
+              ry="24"
+              stroke-width="1"
+            ></ellipse>
+            <g class="header-orbit-spin">
+              <circle class="fill-accent" cx="120" cy="40" r="3.5"></circle>
+              <circle class="fill-primary" cx="28" cy="74" r="2.5"></circle>
+            </g>
+            <circle class="fill-surface stroke-accent" cx="72" cy="56" r="5" stroke-width="1.5"></circle>
+          </svg>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 overflow-x-auto pb-1 font-mono text-[11px]"
+        role="group"
+        aria-label={t("projects.filter.label")}
+        data-project-filters
+      >
+        {filters.map((f, i) => (
+          <>
+            {i > 0 && <span class="size-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />}
+            <button
+              type="button"
+              data-filter={f.value}
+              aria-pressed={i === 0 ? "true" : "false"}
+              class="shrink-0 rounded-full border border-border bg-surface px-4 py-1.5 text-foreground transition-colors hover:border-accent hover:text-primary aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:font-semibold aria-pressed:text-background aria-pressed:hover:text-background dark:aria-pressed:border-primary dark:aria-pressed:bg-primary dark:aria-pressed:text-primary-foreground"
+            >
+              {f.label}
+            </button>
+          </>
+        ))}
+      </div>
+      <p
+        class="sr-only"
+        aria-live="polite"
+        data-filter-status
+        data-template={t("projects.filter.status")}
+      ></p>
+    </section>
+
+    <div class="space-y-12 md:space-y-16" data-project-list>
+      {projects.map((project, i) => (
+        <ProjectShowcase
+          project={project}
+          lang={lang}
+          variant={i === 0 ? "spotlight" : "surface"}
+          reverse={i % 2 === 1}
+        />
+      ))}
+    </div>
+
+    <section class="reveal flex flex-col items-center justify-center space-y-4 rounded-card border border-border bg-accent-soft p-8 text-center sm:p-12">
+      <p class="rounded-full border border-border bg-surface px-3 py-1 font-mono text-[11px] font-semibold text-primary">
+        {t("projects.roadmap.badge")}
+      </p>
+      <h2 class="text-[36px] sm:text-[42px]">{t("projects.roadmap.title")}</h2>
+      <p class="mx-auto max-w-md text-lg text-muted">{t("projects.roadmap.text")}</p>
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a
+          href="https://github.com/MrSahiner"
+          target="_blank"
+          rel="me noopener noreferrer"
+          class="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground no-underline shadow-card transition-colors hover:border-accent hover:text-primary"
+        >
+          <Icon name="github-mark" class="size-4" />
+          {t("projects.roadmap.github")}
+          <span class="sr-only">{t("newTab")}</span>
+        </a>
+        <a
+          href={pathFor("contact", lang)}
+          class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground no-underline shadow-card transition-colors hover:bg-primary-hover hover:text-primary-foreground"
+        >
+          {t("projects.roadmap.contact")}
+        </a>
+      </div>
+    </section>
+  </Container>
+</BaseLayout>
+
+<script>
+  import "../../scripts/projects";
+</script>
+
+<style>
+  .header-orbit-spin {
+    transform-origin: 72px 56px;
+    animation: header-spin 30s linear infinite;
+  }
+  @keyframes header-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-orbit-spin {
+      animation: none;
+    }
+  }
+</style>

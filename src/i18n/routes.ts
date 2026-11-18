@@ -7,6 +7,8 @@ export const routes = {
   projects: { tr: "/projeler/", en: "/en/projects/" },
   experience: { tr: "/deneyim/", en: "/en/experience/" },
   contact: { tr: "/iletisim/", en: "/en/contact/" },
+  projectKutligo: { tr: "/projeler/kutligo/", en: "/en/projects/kutligo/" },
+  projectCoffeego: { tr: "/projeler/coffee-go/", en: "/en/projects/coffee-go/" },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;
@@ -23,4 +25,9 @@ export function findRoute(pathname: string): RouteKey | undefined {
 
 export function pathFor(key: RouteKey, lang: Lang): string {
   return routes[key][lang];
+}
+
+/** Menüde hangi bölümün işaretleneceği: proje detay sayfalarında "Projeler". */
+export function sectionOf(key: RouteKey | undefined): RouteKey | undefined {
+  return key?.startsWith("project") && key !== "projects" ? "projects" : key;
 }

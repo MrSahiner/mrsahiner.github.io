@@ -1,0 +1,79 @@
+---
+// Proje detay sayfası (şimdilik özet). Proje adı, Projeler sayfasındaki vitrin başlığından akarak gelir.
+// Ayrıntılı içerik (problem, çözüm, ekran görüntüleri) tasarımı hazırlanınca eklenecek.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../ui/Container.astro";
+import Icon from "../ui/Icon.astro";
+import Badge from "../ui/Badge.astro";
+import { projects, type Project } from "../../data/projects";
+import { useTranslations } from "../../i18n/utils";
+import { pathFor } from "../../i18n/routes";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  slug: Project["slug"];
+}
+
+const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
+const p = projects.find((x) => x.slug === slug);
+if (!p) throw new Error(`Proje bulunamadı: ${slug}`);
+
+const titleTransition: Record<Project["slug"], string> = {
+  kutligo: "[view-transition-name:proje-kutligo]",
+  "coffee-go": "[view-transition-name:proje-coffee-go]",
+};
+---
+
+<BaseLayout title={p.name} description={p.pitch[lang]}>
+  <Container class="py-12 sm:py-20">
+    <a
+      href={pathFor("projects", lang)}
+      class="group inline-flex items-center gap-2 font-mono text-[11px] font-semibold tracking-wider text-muted uppercase no-underline hover:text-primary"
+    >
+      <Icon name="arrow-right" class="size-4 rotate-180 transition-transform group-hover:-translate-x-1" />
+      {t("projects.back")}
+    </a>
+
+    <p class="mt-10 font-mono text-[11px] font-semibold tracking-wider text-primary uppercase">
+      {p.meta[lang]}
+    </p>
+    <h1
+      class:list={[
+        "mt-3 text-[clamp(3rem,9vw,6rem)] leading-[0.95] tracking-[-0.03em]",
+        titleTransition[p.slug],
+      ]}
+    >
+      {p.name}
+    </h1>
+    <p class="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1">
+      <span class="size-2 animate-pulse rounded-full bg-accent" aria-hidden="true"></span>
+      <span class="font-mono text-[11px] font-medium">{p.status[lang]}</span>
+    </p>
+    <p class="mt-6 max-w-2xl text-xl text-muted">{p.pitch[lang]}</p>
+
+    <section class="mt-12 grid gap-4 sm:grid-cols-3" aria-label={t("projects.features")}>
+      {p.features.map((f) => (
+        <div class="rounded-card border border-border bg-surface p-5 shadow-card">
+          <span class="grid size-9 place-items-center rounded-full bg-accent-soft text-primary">
+            <Icon name={f.icon} class="size-4" />
+          </span>
+          <p class="mt-4 text-[15px] leading-[22px]">{f.text[lang]}</p>
+        </div>
+      ))}
+    </section>
+
+    <ul class="mt-8 flex flex-wrap gap-2" aria-label={t("projects.tags")}>
+      {p.tags.map((tag) => (
+        <li class="rounded border border-border bg-background px-2.5 py-1 font-mono text-[11px] font-medium">
+          {tag}
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-12">
+      <Badge tone="neutral">{t("page.soon")}</Badge>
+    </div>
+  </Container>
+</BaseLayout>
