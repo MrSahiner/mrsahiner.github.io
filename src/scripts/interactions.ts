@@ -235,6 +235,46 @@ function setupOrbits() {
   start();
 }
 
+/**
+ * Dönen unvan: birkaç saniyede bir sıradaki role geçer. Eski rol yukarı, yenisi alttan kayar; pencerenin
+ * genişliği yeni role göre daralıp genişler ve altın alt çizgi yeniden çizilir.
+ */
+function setupRoleRotator() {
+  const rotator = document.querySelector<HTMLElement>("[data-role-rotator]");
+  const windowEl = rotator?.querySelector<HTMLElement>(".role-window");
+  const items = rotator ? [...rotator.querySelectorAll<HTMLElement>(".role-item")] : [];
+  if (!rotator || !windowEl || items.length < 2) return;
+
+  let index = 0;
+  const fit = () => {
+    const active = items.at(index);
+    if (active) windowEl.style.width = `${active.offsetWidth}px`;
+  };
+  // Genişlik fontlar yüklendikten sonra ölçülür; yedek font daha dar olduğu için önceden ölçmek yazıyı keser.
+  fit();
+  void document.fonts.ready.then(fit);
+  window.addEventListener("resize", fit);
+
+  const next = () => {
+    const current = items.at(index);
+    index = (index + 1) % items.length;
+    const upcoming = items.at(index);
+    if (!current || !upcoming) return;
+    current.classList.remove("is-active");
+    current.classList.add("is-leaving");
+    upcoming.classList.remove("is-leaving");
+    upcoming.classList.add("is-active");
+    fit();
+    rotator.classList.remove("redraw");
+    void rotator.offsetWidth; // alt çizgi animasyonunu yeniden başlatmak için
+    rotator.classList.add("redraw");
+    window.setTimeout(() => current.classList.remove("is-leaving"), 600);
+  };
+
+  // İlk değişim açılış animasyonu bittikten sonra başlar.
+  window.setTimeout(() => window.setInterval(next, 2800), 1800);
+}
+
 const GLYPHS = "ABCDEFGHIJKLMNOPRSTUVYZ0123456789/<>#*";
 
 /** Metni rastgele karakterlerden soldan sağa doğru gerçek haline çözer. */
@@ -275,6 +315,7 @@ function setupScramble() {
 
 if (!reduceMotion) {
   setupScramble();
+  setupRoleRotator();
   setupOrbits();
   if (finePointer) {
     setupCards();
