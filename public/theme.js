@@ -16,7 +16,12 @@
   }
 
   function apply(theme) {
+    // Tema değişirken renk geçiş animasyonları kapatılır; yoksa butonlar bir an eski renkte kalır.
+    root.classList.add("theme-changing");
     root.setAttribute("data-theme", theme);
+    // Stil hesaplamasını şimdi yaptır, ardından sınıfı kaldır: yeni renkler animasyonsuz uygulanmış olur.
+    void root.offsetHeight;
+    root.classList.remove("theme-changing");
   }
 
   apply(stored() || system());

@@ -1,0 +1,20 @@
+---
+interface Props {
+  as?: "div" | "article" | "li";
+  /** Üzerine gelince kenarlık vurgulanır; içindeki ana bağlantı kartın tamamını tıklanabilir yapar. */
+  interactive?: boolean;
+  class?: string;
+}
+
+const { as: Tag = "div", interactive = false, class: className } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    "relative rounded-card border border-border bg-surface p-6 shadow-card",
+    interactive && "transition-colors duration-150 hover:border-accent focus-within:border-accent",
+    className,
+  ]}
+>
+  <slot />
+</Tag>

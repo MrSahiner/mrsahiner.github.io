@@ -35,12 +35,21 @@ Site http://localhost:4321 adresinde açılır.
 
 ```
 public/            olduğu gibi kopyalanan dosyalar (_headers, robots.txt, theme.js, favicon)
-src/components/    Header, Footer, HomePage
+src/components/    Header (mobil menü dahil), Footer, HomePage
+src/components/ui/ tasarım sistemi: Button, Card, Tag, Badge, Section, Container, Icon
+src/design/        kontrast hesabı (WCAG)
 src/i18n/          dil sözlükleri ve yardımcılar
 src/layouts/       BaseLayout (meta etiketleri, hreflang, tema)
-src/pages/         sayfalar: / , /en/ , 404
+src/pages/         sayfalar: / , /en/ , 404, /tasarim
 src/styles/        global.css (tema renkleri ve fontlar)
 ```
+
+## Tasarım sistemi
+
+- Renklerin tek kaynağı `src/styles/global.css`. Aydınlık tema `:root`, karanlık tema `[data-theme="dark"]` bloğunda.
+- `/tasarim` sayfası renkleri, kontrast oranlarını, yazı tiplerini ve bileşenleri gösterir (arama motorlarına kapalı).
+- Metin renk çiftlerinden biri WCAG AA sınırının (4,5:1) altına düşerse **build hata verir**. Çiftler `src/design/contrast.ts` içinde.
+- `--accent` yalnızca süs içindir (çizgi, nokta, ikon); metinde kullanılmaz.
 
 ## Yayın (Cloudflare Pages)
 

@@ -16,6 +16,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      // Tasarım önizleme sayfası arama motorlarına kapalıdır.
+      filter: (page) => !page.includes("/tasarim"),
       i18n: {
         defaultLocale: "tr",
         locales: { tr: "tr-TR", en: "en-US" },

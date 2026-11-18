@@ -1,0 +1,259 @@
+---
+// Tasarım sistemi önizlemesi: renkler, kontrast oranları, tipografi ve bileşenler.
+// Arama motorlarına kapalıdır ve site haritasına eklenmez.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+import Card from "../components/ui/Card.astro";
+import Tag from "../components/ui/Tag.astro";
+import Badge from "../components/ui/Badge.astro";
+import Icon, { type IconName } from "../components/ui/Icon.astro";
+import css from "../styles/global.css?raw";
+import { contrastRatio, parsePalettes, textPairs, type Theme } from "../design/contrast";
+
+const palettes = parsePalettes(css);
+const themes: Theme[] = ["light", "dark"];
+
+// Tailwind sınıfları kaynak kodda birebir yazılı olmalı; bu yüzden eşleme elle yapılır.
+const swatches = [
+  { token: "background", cls: "bg-background" },
+  { token: "surface", cls: "bg-surface" },
+  { token: "foreground", cls: "bg-foreground" },
+  { token: "muted", cls: "bg-muted" },
+  { token: "border", cls: "bg-border" },
+  { token: "primary", cls: "bg-primary" },
+  { token: "primary-hover", cls: "bg-primary-hover" },
+  { token: "accent", cls: "bg-accent" },
+  { token: "accent-soft", cls: "bg-accent-soft" },
+  { token: "success", cls: "bg-success" },
+  { token: "danger", cls: "bg-danger" },
+];
+
+const rows = themes.flatMap((theme) =>
+  textPairs.map((p) => {
+    const fg = palettes[theme][p.fg];
+    const bg = palettes[theme][p.bg];
+    if (!fg || !bg) throw new Error(`Renk bulunamadı: ${theme} ${p.fg}/${p.bg}`);
+    const ratio = contrastRatio(fg, bg);
+    return { theme, ...p, ratio, pass: ratio >= p.min };
+  }),
+);
+
+// Metin çiftlerinden biri AA sınırının altındaysa build durur.
+const failing = rows.filter((r) => !r.pass);
+if (failing.length > 0) {
+  throw new Error(
+    "Kontrast yetersiz: " +
+      failing.map((r) => `${r.theme} ${r.fg}/${r.bg} = ${r.ratio.toFixed(2)} (en az ${r.min})`).join(", "),
+  );
+}
+
+const icons: IconName[] = [
+  "github",
+  "linkedin",
+  "mail",
+  "external",
+  "arrow-right",
+  "download",
+  "menu",
+  "close",
+  "sun",
+  "moon",
+  "map-pin",
+  "calendar",
+];
+const themeLabel: Record<Theme, string> = { light: "Aydınlık", dark: "Karanlık" };
+---
+
+<BaseLayout title="Tasarım sistemi" noindex translated={false}>
+  <Container class="py-16 sm:py-24">
+    <p class="font-mono text-xs tracking-widest text-muted uppercase">Tasarım sistemi</p>
+    <h1 class="mt-2 text-5xl sm:text-6xl">Renkler, yazı ve bileşenler</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted">
+      Bu sayfa sitenin yapı taşlarını gösterir. Renk değerleri doğrudan{" "}
+      <code class="font-mono text-base">global.css</code> dosyasından okunur; sağ üstteki düğmeyle temayı
+      değiştirerek iki temayı da görebilirsiniz.
+    </p>
+
+    <section class="mt-16" aria-labelledby="renkler">
+      <h2 id="renkler" class="text-3xl">
+        Renkler
+      </h2>
+      <ul class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {swatches.map((s) => (
+          <li class="overflow-hidden rounded-card border border-border bg-surface">
+            <div class:list={["h-16 border-b border-border", s.cls]} />
+            <div class="p-3 text-sm">
+              <p class="font-mono text-foreground">--{s.token}</p>
+              <p class="mt-1 font-mono text-xs text-muted">
+                <span class="dark:hidden">{palettes.light[s.token]}</span>
+                <span class="hidden dark:inline">{palettes.dark[s.token]}</span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-16" aria-labelledby="kontrast">
+      <h2 id="kontrast" class="text-3xl">
+        Kontrast (WCAG 2.2 AA)
+      </h2>
+      <p class="mt-2 text-muted">
+        Normal metin için en az 4,5:1 gerekir. Bir çift bu sınırın altına düşerse build hata verir.
+      </p>
+      <div class="mt-6 overflow-x-auto rounded-card border border-border bg-surface">
+        <table class="w-full min-w-[36rem] text-left text-sm">
+          <thead class="border-b border-border text-muted">
+            <tr>
+              <th scope="col" class="px-4 py-3 font-medium">
+                Tema
+              </th>
+              <th scope="col" class="px-4 py-3 font-medium">
+                Kullanım
+              </th>
+              <th scope="col" class="px-4 py-3 font-medium">
+                Renkler
+              </th>
+              <th scope="col" class="px-4 py-3 text-right font-medium">
+                Oran
+              </th>
+              <th scope="col" class="px-4 py-3 font-medium">
+                Sonuç
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr class="border-b border-border last:border-0">
+                <td class="px-4 py-2.5">{themeLabel[r.theme]}</td>
+                <td class="px-4 py-2.5">{r.use}</td>
+                <td class="px-4 py-2.5 font-mono text-xs text-muted">
+                  {r.fg} / {r.bg}
+                </td>
+                <td class="px-4 py-2.5 text-right font-mono">{r.ratio.toFixed(2)}:1</td>
+                <td class="px-4 py-2.5">{r.min === 0 ? "Süs" : r.ratio >= 7 ? "AAA" : "AA"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="tipografi">
+      <h2 id="tipografi" class="text-3xl">
+        Tipografi
+      </h2>
+      <div class="mt-6 space-y-6">
+        <div>
+          <p class="font-mono text-xs text-muted">Başlık 1 · Cormorant Garamond 600 · 72/48 px</p>
+          <p class="font-heading text-5xl font-semibold sm:text-7xl">Muhammed Salim Şahiner</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-muted">Başlık 2 · Cormorant Garamond 600 · 48/36 px</p>
+          <p class="font-heading text-4xl font-semibold sm:text-5xl">Projeler ve deneyim</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-muted">Başlık 3 · Cormorant Garamond 600 · 24 px</p>
+          <p class="font-heading text-2xl font-semibold">KutliGo</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-muted">Gövde · Inter 400 · 16–18 px</p>
+          <p class="max-w-2xl text-lg">
+            Fikirden canlı ortama kadar uçtan uca ürün geliştiriyorum. Türkçe karakterler: ğüşıöç ĞÜŞİÖÇ.
+          </p>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-muted">Kod · JetBrains Mono · 14 px</p>
+          <p class="font-mono text-sm">pnpm run build && astro check</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="butonlar">
+      <h2 id="butonlar" class="text-3xl">
+        Butonlar
+      </h2>
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <Button icon="mail">Birincil</Button>
+        <Button variant="secondary" iconEnd="arrow-right">
+          İkincil
+        </Button>
+        <Button variant="ghost">Sade</Button>
+        <Button size="sm" icon="download">
+          Küçük
+        </Button>
+        <Button href="https://github.com/MrSahiner" external variant="secondary" icon="github">
+          Dış bağlantı
+        </Button>
+        <Button disabled>Devre dışı</Button>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="rozetler">
+      <h2 id="rozetler" class="text-3xl">
+        Rozet ve etiketler
+      </h2>
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <Badge>Fırsatlara açığım</Badge>
+        <Badge tone="success">Yayında</Badge>
+        <Badge tone="neutral">Geliştiriliyor</Badge>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <Tag>Next.js</Tag>
+        <Tag>ASP.NET Core</Tag>
+        <Tag>PostgreSQL</Tag>
+        <Tag>Tailwind CSS</Tag>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="kartlar">
+      <h2 id="kartlar" class="text-3xl">
+        Kartlar
+      </h2>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+        <Card as="li" interactive>
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="text-2xl">
+              <a
+                href="#kartlar"
+                class="text-foreground no-underline after:absolute after:inset-0 hover:text-foreground"
+              >
+                Örnek proje
+              </a>
+            </h3>
+            <Badge tone="neutral">Geliştiriliyor</Badge>
+          </div>
+          <p class="mt-3 text-muted">
+            Kartın tamamı tıklanabilir; klavyeyle gelindiğinde kenarlık vurgulanır.
+          </p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <Tag>Astro</Tag>
+            <Tag>TypeScript</Tag>
+          </div>
+        </Card>
+        <Card as="li">
+          <h3 class="text-2xl">Sabit kart</h3>
+          <p class="mt-3 text-muted">Bağlantısız içerik için (ör. deneyim, eğitim).</p>
+          <p class="mt-4 flex items-center gap-2 text-sm text-muted">
+            <Icon name="calendar" /> 29 Haziran – 10 Ağustos 2026
+          </p>
+        </Card>
+      </ul>
+    </section>
+
+    <section class="mt-16" aria-labelledby="ikonlar">
+      <h2 id="ikonlar" class="text-3xl">
+        İkonlar
+      </h2>
+      <ul class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6">
+        {icons.map((name) => (
+          <li class="flex flex-col items-center gap-2 rounded-card border border-border bg-surface p-4">
+            <Icon name={name} class="size-5" />
+            <span class="font-mono text-xs text-muted">{name}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </Container>
+</BaseLayout>

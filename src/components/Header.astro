@@ -1,12 +1,14 @@
 ---
+import Icon from "./ui/Icon.astro";
 import { getAlternatePath, useTranslations } from "../i18n/utils";
 import type { Lang } from "../i18n/ui";
 
 interface Props {
   lang: Lang;
+  showLangSwitch?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, showLangSwitch = true } = Astro.props;
 const t = useTranslations(lang);
 const home = lang === "tr" ? "/" : "/en/";
 const otherLang: Lang = lang === "tr" ? "en" : "tr";
@@ -37,14 +39,16 @@ const links = [
     </nav>
 
     <div class="flex items-center gap-2">
-      <a
-        href={getAlternatePath(Astro.url, otherLang)}
-        hreflang={otherLang}
-        lang={otherLang}
-        class="rounded-md px-2 py-1 text-sm text-muted no-underline hover:text-foreground"
-      >
-        {t("lang.switch")}
-      </a>
+      {showLangSwitch && (
+        <a
+          href={getAlternatePath(Astro.url, otherLang)}
+          hreflang={otherLang}
+          lang={otherLang}
+          class="rounded-md px-2 py-1 text-sm text-muted no-underline hover:text-foreground"
+        >
+          {t("lang.switch")}
+        </a>
+      )}
       <button
         type="button"
         data-theme-toggle
@@ -52,28 +56,62 @@ const links = [
         title={t("theme.toggle")}
         class="grid size-9 place-items-center rounded-md border border-border text-muted hover:text-foreground"
       >
-        <svg
-          class="size-4 dark:hidden"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-        </svg>
-        <svg
-          class="hidden size-4 dark:block"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-        </svg>
+        <Icon name="moon" class="size-4 dark:hidden" />
+        <Icon name="sun" class="hidden size-4 dark:block" />
+      </button>
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobil-menu"
+        aria-label={t("nav.menu")}
+        class="group grid size-9 place-items-center rounded-md border border-border text-muted hover:text-foreground md:hidden"
+      >
+        <Icon name="menu" class="size-4 group-aria-expanded:hidden" />
+        <Icon name="close" class="hidden size-4 group-aria-expanded:block" />
       </button>
     </div>
   </div>
+
+  <nav id="mobil-menu" aria-label={t("nav.label")} class="border-t border-border md:hidden" hidden>
+    <ul class="mx-auto flex max-w-5xl flex-col px-4 py-2 sm:px-6">
+      {links.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            data-menu-link
+            class="block border-b border-border py-3 text-base text-foreground no-underline last:border-0"
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
 </header>
+
+<script>
+  // Mobil menü: Astro bu script'i harici bir dosya olarak paketler (CSP satır içi script'e izin vermez).
+  const button = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.getElementById("mobil-menu");
+
+  function setOpen(open: boolean) {
+    if (!button || !menu) return;
+    button.setAttribute("aria-expanded", String(open));
+    menu.hidden = !open;
+  }
+
+  button?.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+  menu
+    ?.querySelectorAll("[data-menu-link]")
+    .forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && button?.getAttribute("aria-expanded") === "true") {
+      setOpen(false);
+      button.focus();
+    }
+  });
+  window.matchMedia("(min-width: 48rem)").addEventListener("change", (event) => {
+    if (event.matches) setOpen(false);
+  });
+</script>
