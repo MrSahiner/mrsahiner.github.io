@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { getLangFromUrl, getAlternatePath, useTranslations } from "../i18n/utils";
 import { languages, type Lang } from "../i18n/ui";
+import { contentSecurityPolicy } from "../security/csp";
 
 interface Props {
   title?: string;
@@ -30,6 +31,9 @@ const alternates = (Object.keys(languages) as Lang[]).map((l) => ({
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
+    <!-- GitHub Pages HTTP başlığı desteklemediği için CSP ve Referrer-Policy meta etiketiyle verilir. -->
+    <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />

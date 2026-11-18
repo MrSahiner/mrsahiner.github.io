@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://mrsahiner.com/sitemap-index.xml

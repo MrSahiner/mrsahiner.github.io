@@ -1,6 +1,6 @@
 # mrsahiner.com
 
-Muhammed Salim Şahiner'in kişisel portfolyo sitesi. Astro ile üretilen statik bir site; Cloudflare Pages üzerinde yayınlanır.
+Muhammed Salim Şahiner'in kişisel portfolyo sitesi. Astro ile üretilen statik bir site; şu an GitHub Pages'te (https://mrsahiner.github.io) yayınlanır.
 
 ## Teknolojiler
 
@@ -10,7 +10,7 @@ Muhammed Salim Şahiner'in kişisel portfolyo sitesi. Astro ile üretilen statik
 | Stil    | Tailwind CSS v4; renkler `src/styles/global.css` içinde CSS değişkeni              |
 | Fontlar | Inter, Cormorant Garamond, JetBrains Mono (`@fontsource`, kendi sunucumuzdan)      |
 | Çok dil | Türkçe varsayılan (`/`), İngilizce `/en`; metinler `src/i18n/ui.ts`                |
-| Hosting | Cloudflare Pages                                                                   |
+| Hosting | GitHub Pages (`.github/workflows/deploy.yml`); Cloudflare Pages yedek              |
 | Kalite  | `astro check`, Prettier, `pnpm audit`; GitHub Actions (`.github/workflows/ci.yml`) |
 
 ## Geliştirme
@@ -51,7 +51,11 @@ src/styles/        global.css (tema renkleri ve fontlar)
 - Metin renk çiftlerinden biri WCAG AA sınırının (4,5:1) altına düşerse **build hata verir**. Çiftler `src/design/contrast.ts` içinde.
 - `--accent` yalnızca süs içindir (çizgi, nokta, ikon); metinde kullanılmaz.
 
-## Yayın (Cloudflare Pages)
+## Yayın
+
+**GitHub Pages (şu anki adres):** `main` dalına her gönderimde `.github/workflows/deploy.yml` siteyi derleyip https://mrsahiner.github.io adresine yayınlar. Site adresi `astro.config.mjs` içindeki `site` değeridir; canonical, hreflang, site haritası ve `robots.txt` buradan üretilir.
+
+**Cloudflare Pages (domain alınınca):** Proje bağlı durumda, `mrsahiner.pages.dev` adresinde de yayınlanır. Domain bağlandığında `site` değerini `https://mrsahiner.com` yapmak ve GitHub Pages iş akışını kaldırmak yeterlidir.
 
 | Ayar              | Değer               |
 | ----------------- | ------------------- |
@@ -63,6 +67,7 @@ src/styles/        global.css (tema renkleri ve fontlar)
 
 ## Güvenlik
 
-- Güvenlik başlıkları (CSP, HSTS, X-Frame-Options vb.) `public/_headers` dosyasındadır.
+- Güvenlik başlıkları (CSP, HSTS, X-Frame-Options vb.) `public/_headers` dosyasındadır; bu dosyayı yalnızca Cloudflare Pages okur.
+- GitHub Pages özel başlık desteklemediği için CSP ve Referrer-Policy ayrıca `<meta>` etiketiyle verilir (`src/security/csp.ts`). Meta etiketinde `frame-ancestors` çalışmaz ve X-Frame-Options verilemez; bu ikisi ancak Cloudflare'e geçince devreye girer.
 - CSP satır içi script ve stile izin vermez. Bu yüzden Astro'da `inlineStylesheets: "never"` ayarlıdır ve tema script'i `public/theme.js` olarak harici yüklenir. Sayfaya `<script>` eklerken satır içi kalmadığından emin olun.
 - Gizli değerler (Turnstile anahtarı, e-posta adresi) repoya eklenmez; Cloudflare ortam değişkenlerinde şifreli tutulur.
