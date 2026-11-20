@@ -87,6 +87,11 @@ const tr = {
   "about.skillsEyebrow": "Teknoloji yığını",
   "about.skillsTitle": "Yetenekler",
   "about.now": "Şu an",
+  "experience.intro": "Staj deneyimim, kendi ürünlerim ve eğitimim.",
+  "experience.timeline": "Kariyer zaman çizelgesi",
+  "experience.summary": "Özet bilgiler",
+  "experience.cta": "Staj, iş ve proje fırsatları için bana ulaşın.",
+  "experience.seeProjects": "Projelerimi gör",
   "page.back": "Ana sayfaya dön",
 } as const;
 
@@ -173,6 +178,11 @@ const en: Record<keyof typeof tr, string> = {
   "about.skillsEyebrow": "Tech stack",
   "about.skillsTitle": "Skills",
   "about.now": "Now",
+  "experience.intro": "My internship, my own products and my education.",
+  "experience.timeline": "Career timeline",
+  "experience.summary": "Summary",
+  "experience.cta": "Reach out about internships, jobs and projects.",
+  "experience.seeProjects": "See my projects",
   "page.back": "Back to home",
 };
 
