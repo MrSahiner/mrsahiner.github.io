@@ -13,6 +13,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "cv": "node scripts/cv.mjs",
+    "og": "node scripts/og.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
