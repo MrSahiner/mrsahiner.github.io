@@ -12,6 +12,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "cv": "node scripts/cv.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

@@ -1,0 +1,225 @@
+/* CV'nin ortak stili. PDF'i `pnpm cv` üretir (scripts/cv.mjs); fontlar projedeki fontsource paketlerinden gelir. */
+@import "../node_modules/@fontsource-variable/inter/index.css";
+@import "../node_modules/@fontsource-variable/jetbrains-mono/index.css";
+@import "../node_modules/@fontsource/cormorant-garamond/600.css";
+
+:root {
+  --foreground: #2e2a26;
+  --muted: #6e6861;
+  --primary: #8c6d3f;
+  --accent: #b08d57;
+  --accent-soft: #f3ece1;
+  --border: #e7e1d8;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Inter Variable", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono Variable", Consolas, monospace;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+body {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 14mm 15mm 12mm;
+  background: #fff;
+  color: var(--foreground);
+  font-family: var(--sans);
+  font-size: 9pt;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Başlık */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8mm;
+  padding-bottom: 5mm;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 28mm;
+  height: 2px;
+  background: var(--accent);
+}
+
+.name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 27pt;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.role {
+  margin-top: 2mm;
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.links {
+  list-style: none;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.links a {
+  color: var(--foreground);
+}
+
+/* Gövde: ana sütun + kenar sütunu */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 52mm;
+  gap: 8mm;
+  margin-top: 6mm;
+}
+
+.section + .section {
+  margin-top: 5.5mm;
+}
+
+.label {
+  margin-bottom: 2.5mm;
+  font-family: var(--mono);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.lead {
+  color: var(--foreground);
+}
+
+/* Deneyim ve proje kayıtları */
+.entry + .entry {
+  margin-top: 4mm;
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4mm;
+}
+
+.entry-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 13pt;
+  line-height: 1.2;
+}
+
+.entry-date {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 7pt;
+  color: var(--muted);
+}
+
+.entry-role {
+  font-weight: 600;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+
+.entry ul {
+  margin-top: 1.2mm;
+  padding-left: 3.5mm;
+}
+
+.entry li {
+  padding-left: 0.5mm;
+}
+
+.entry li::marker {
+  color: var(--accent);
+}
+
+.entry p {
+  margin-top: 1mm;
+}
+
+.tech {
+  margin-top: 1.2mm;
+  font-family: var(--mono);
+  font-size: 7pt;
+  color: var(--muted);
+}
+
+/* Kenar sütunu */
+.aside .section + .section {
+  margin-top: 5mm;
+}
+
+.skill-group + .skill-group {
+  margin-top: 2.5mm;
+}
+
+.skill-group h3 {
+  font-size: 8pt;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2mm;
+  margin-top: 1.2mm;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.4mm 1.8mm;
+  border-radius: 1.2mm;
+  background: var(--accent-soft);
+  font-family: var(--mono);
+  font-size: 6.8pt;
+}
+
+.plain {
+  list-style: none;
+}
+
+.plain li + li {
+  margin-top: 1.5mm;
+}
+
+.plain span {
+  display: block;
+  color: var(--muted);
+  font-size: 8pt;
+}
