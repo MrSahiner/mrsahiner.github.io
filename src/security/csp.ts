@@ -12,10 +12,10 @@ export const contentSecurityPolicy = [
   "style-src 'self'",
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self' https://cloudflareinsights.com",
+  "connect-src 'self' https://cloudflareinsights.com https://api.web3forms.com",
   "frame-src https://challenges.cloudflare.com",
   "base-uri 'self'",
-  "form-action 'self'",
+  "form-action 'self' https://api.web3forms.com",
   "object-src 'none'",
   "upgrade-insecure-requests",
 ].join("; ");

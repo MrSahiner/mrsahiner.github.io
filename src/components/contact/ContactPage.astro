@@ -1,0 +1,361 @@
+---
+// İletişim sayfası: büyük başlık, Web3Forms'a gönderen form (src/scripts/contact.ts) ve iletişim kanalları.
+// Form JavaScript olmadan da çalışır (doğrudan servise gönderilir); script doğrulama, sayaç ve durumları ekler.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../ui/Container.astro";
+import Icon from "../ui/Icon.astro";
+import { contactForm, contactText as c } from "../../data/contact";
+import { useTranslations } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const ready = contactForm.accessKey.length > 0;
+const input =
+  "w-full rounded-[10px] border border-border bg-background/60 px-4 py-3 text-[15px] text-foreground transition-colors placeholder:text-muted focus:border-primary focus:outline-none aria-[invalid=true]:border-2 aria-[invalid=true]:border-danger";
+const channels = [
+  { name: "GitHub", handle: "MrSahiner", icon: "github-mark", href: "https://github.com/MrSahiner" },
+  {
+    name: "LinkedIn",
+    handle: "Muhammed Salim Şahiner",
+    icon: "linkedin-mark",
+    href: "https://www.linkedin.com/in/muhammed-salim-%C5%9Fahiner-663116360",
+  },
+] as const;
+---
+
+<BaseLayout title={t("nav.contact")} description={c.intro[lang]}>
+  <Container class="space-y-12 py-10 md:space-y-14 md:py-14">
+    <section class="relative overflow-hidden border-b border-border pb-8 md:pb-10">
+      <svg
+        class="contact-orbit pointer-events-none absolute -top-6 right-0 hidden h-56 w-96 overflow-visible md:block"
+        viewBox="0 0 384 224"
+        fill="none"
+        aria-hidden="true"
+      >
+        <ellipse
+          class="stroke-accent opacity-65"
+          cx="236"
+          cy="112"
+          rx="146"
+          ry="56"
+          transform="rotate(-14 236 112)"
+          stroke-width="1"
+          stroke-dasharray="4 6"
+        ></ellipse>
+        <ellipse
+          class="stroke-accent opacity-45"
+          cx="236"
+          cy="112"
+          rx="98"
+          ry="38"
+          transform="rotate(-14 236 112)"
+          stroke-width="1"
+        ></ellipse>
+        <circle class="stroke-accent opacity-35" cx="236" cy="112" r="22" stroke-width="1"></circle>
+        <g class="contact-spin">
+          <circle class="fill-accent" cx="362" cy="80" r="4.5"></circle>
+          <circle class="fill-primary" cx="116" cy="140" r="3.5"></circle>
+        </g>
+      </svg>
+
+      <div class="relative z-10 max-w-3xl">
+        <p class="mb-3 font-mono text-[11px] font-semibold tracking-widest text-primary uppercase">
+          {c.eyebrow[lang]}
+        </p>
+        <h1 class="mb-4 text-[clamp(3rem,9vw,6rem)] leading-[0.95] tracking-[-0.03em] [view-transition-name:baslik-contact]">
+          {t("bento.contact.title")}
+        </h1>
+        <p class="text-lg text-pretty text-muted">{c.intro[lang]}</p>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
+      <!-- Form -->
+      <div class="reveal rounded-card border border-border bg-surface p-6 shadow-card md:p-8 lg:col-span-7">
+        <form
+          action={contactForm.endpoint}
+          method="POST"
+          novalidate
+          class="space-y-6"
+          data-contact-form
+          data-ready={ready ? "true" : "false"}
+          data-error-name={c.errors.name[lang]}
+          data-error-email={c.errors.email[lang]}
+          data-error-message={c.errors.message[lang]}
+          data-error-send={c.errors.send[lang]}
+          aria-labelledby="form-baslik"
+        >
+          <div class="flex items-center justify-between border-b border-border pb-4">
+            <h2
+              id="form-baslik"
+              class="font-mono text-[11px] font-semibold tracking-widest text-primary uppercase"
+            >
+              {c.formLabel[lang]}
+            </h2>
+            <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
+          </div>
+
+          <input type="hidden" name="access_key" value={contactForm.accessKey} />
+          <input type="hidden" name="from_name" value="mrsahiner.com" />
+          <input type="hidden" name="subject" value="mrsahiner.com iletişim formu" data-subject />
+          <!-- Spam tuzağı: insanlar görmez, botlar doldurursa servis mesajı reddeder. -->
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+          <div class="space-y-2">
+            <label for="iletisim-ad" class="block text-xs font-medium">
+              {c.name[lang]}
+            </label>
+            <input
+              id="iletisim-ad"
+              name="name"
+              type="text"
+              required
+              maxlength="100"
+              autocomplete="name"
+              placeholder={c.namePlaceholder[lang]}
+              aria-describedby="iletisim-ad-hata"
+              class={input}
+            />
+            <p
+              id="iletisim-ad-hata"
+              class="field-error hidden items-center gap-1.5 text-[13px]"
+              data-error-for="name"
+            ></p>
+          </div>
+
+          <div class="space-y-2">
+            <label for="iletisim-eposta" class="block text-xs font-medium">
+              {c.email[lang]}
+            </label>
+            <input
+              id="iletisim-eposta"
+              name="email"
+              type="email"
+              required
+              maxlength="200"
+              autocomplete="email"
+              placeholder={c.emailPlaceholder[lang]}
+              aria-describedby="iletisim-eposta-hata"
+              class={input}
+            />
+            <p
+              id="iletisim-eposta-hata"
+              class="field-error hidden items-center gap-1.5 text-[13px]"
+              data-error-for="email"
+            ></p>
+          </div>
+
+          <fieldset class="space-y-2.5">
+            <legend class="mb-2.5 block text-xs font-medium">{c.topic[lang]}</legend>
+            <div class="flex flex-wrap items-center gap-2.5">
+              {c.topics.map((topic, i) => (
+                <label class="topic-chip cursor-pointer">
+                  <input
+                    type="radio"
+                    name="topic"
+                    value={topic.label[lang]}
+                    checked={i === 0}
+                    class="peer sr-only"
+                    data-topic
+                  />
+                  <span class="inline-block rounded-full border border-border bg-background px-4 py-2 text-xs font-medium transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary hover:border-accent">
+                    {topic.label[lang]}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="iletisim-mesaj" class="block text-xs font-medium">
+                {c.message[lang]}
+              </label>
+              <span class="font-mono text-[11px] text-muted tabular-nums" data-counter aria-hidden="true">
+                0 / {contactForm.maxMessage}
+              </span>
+            </div>
+            <textarea
+              id="iletisim-mesaj"
+              name="message"
+              rows="5"
+              required
+              minlength="10"
+              maxlength={contactForm.maxMessage}
+              placeholder={c.messagePlaceholder[lang]}
+              aria-describedby="iletisim-mesaj-hata"
+              class:list={[input, "resize-y"]}
+            ></textarea>
+            <p
+              id="iletisim-mesaj-hata"
+              class="field-error hidden items-center gap-1.5 text-[13px]"
+              data-error-for="message"
+            ></p>
+          </div>
+
+          <div class="space-y-5 pt-1">
+            <p class="flex items-start gap-2.5 text-[13px] text-muted">
+              <Icon name="shield-check" class="mt-0.5 size-[18px] shrink-0 text-primary" />
+              <span class="text-pretty">{c.privacy[lang]}</span>
+            </p>
+
+            {!ready && (
+              <p class="rounded-[10px] border border-border bg-accent-soft px-4 py-3 text-[13px]" role="note">
+                {c.unavailable[lang]}
+              </p>
+            )}
+
+            <p class="hidden text-[13px] font-medium text-danger" role="alert" data-send-error></p>
+
+            <button
+              type="submit"
+              disabled={!ready}
+              data-submit
+              class="group inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground shadow-card transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait sm:w-auto"
+            >
+              <svg
+                class="hidden size-4 animate-spin group-aria-busy:block"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="3"
+                ></circle>
+                <path
+                  class="opacity-90"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 0 1 8-8v3a5 5 0 0 0-5 5H4z"
+                ></path>
+              </svg>
+              <span class="group-aria-busy:hidden">{c.send[lang]}</span>
+              <span class="hidden group-aria-busy:inline">{c.sending[lang]}</span>
+              <Icon
+                name="arrow-right"
+                class="size-[18px] transition-transform group-hover:translate-x-0.5 group-aria-busy:hidden"
+              />
+            </button>
+          </div>
+        </form>
+
+        <!-- Başarı durumu: gönderim sonrası formun yerini alır -->
+        <div class="hidden flex-col items-start space-y-4 py-2" data-contact-success tabindex="-1">
+          <span class="grid size-12 place-items-center rounded-full border border-border bg-accent-soft text-primary">
+            <svg
+              class="size-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <div class="space-y-1.5">
+            <h2 class="text-[28px]">{c.successTitle[lang]}</h2>
+            <p class="text-[15px] text-muted">{c.successText[lang]}</p>
+          </div>
+          <button
+            type="button"
+            data-new-message
+            class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-primary"
+          >
+            {c.newMessage[lang]}
+          </button>
+        </div>
+      </div>
+
+      <!-- Kanallar -->
+      <aside class="reveal-stagger space-y-6 lg:col-span-5" aria-label={c.channels[lang]}>
+        <div class="space-y-4 rounded-card border border-spotlight-border bg-spotlight p-6 text-spotlight-foreground shadow-[0_24px_60px_-24px_var(--glow)] md:p-7">
+          <p class="font-mono text-[11px] font-semibold tracking-widest text-spotlight-accent uppercase">
+            {c.statusLabel[lang]}
+          </p>
+          <div class="flex items-center gap-3">
+            <span class="size-2.5 shrink-0 animate-pulse rounded-full bg-accent" aria-hidden="true"></span>
+            <h2 class="text-[28px] text-spotlight-foreground">{c.statusTitle[lang]}</h2>
+          </div>
+          <p class="text-[15px] text-pretty text-spotlight-muted">{c.statusText[lang]}</p>
+        </div>
+
+        <ul class="divide-y divide-border overflow-hidden rounded-card border border-border bg-surface shadow-card">
+          {channels.map((ch) => (
+            <li>
+              <a
+                href={ch.href}
+                target="_blank"
+                rel="me noopener noreferrer"
+                class="group flex items-center justify-between gap-4 p-5 text-foreground no-underline transition-colors hover:bg-background/60 hover:text-foreground md:p-6"
+              >
+                <span class="flex items-center gap-4">
+                  <span class="grid size-11 shrink-0 place-items-center rounded-full border border-border bg-accent-soft text-primary">
+                    <Icon name={ch.icon} class="size-5" />
+                  </span>
+                  <span>
+                    <span class="block text-base font-semibold transition-colors group-hover:text-primary">
+                      {ch.name}
+                    </span>
+                    <span class="block font-mono text-[11px] text-muted">{ch.handle}</span>
+                  </span>
+                </span>
+                <span class="grid size-9 place-items-center rounded-full border border-border bg-surface text-muted transition-colors group-hover:border-accent group-hover:text-primary">
+                  <Icon
+                    name="arrow-up-right"
+                    class="size-[18px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </span>
+                <span class="sr-only">{t("newTab")}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="space-y-2 rounded-card border border-border bg-accent-soft p-6">
+          <p class="font-mono text-[11px] font-semibold tracking-widest uppercase">{c.locationLabel[lang]}</p>
+          <p class="text-base font-semibold">{c.locationText[lang]}</p>
+        </div>
+      </aside>
+    </section>
+  </Container>
+</BaseLayout>
+
+<script>
+  import "../../scripts/contact";
+</script>
+
+<style>
+  .contact-spin {
+    transform-origin: 236px 112px;
+    animation: contact-spin 30s linear infinite;
+  }
+  @keyframes contact-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  /* Hata mesajının başındaki kırmızı nokta */
+  .field-error::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--danger);
+    flex-shrink: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact-spin {
+      animation: none;
+    }
+  }
+</style>

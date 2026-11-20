@@ -58,10 +58,6 @@ const tr = {
   "bento.contact.text": "Yeni projeler, ürün geliştirme ve mühendislik fırsatları için bana ulaşın.",
   "bento.contact.profiles": "Kod ve sosyal profiller",
   newTab: "(yeni sekmede açılır)",
-  "page.about.intro": "Kim olduğum, nasıl çalıştığım ve neleri önemsediğim.",
-  "page.projects.intro": "Fikirden yayına kadar geliştirdiğim ürünler.",
-  "page.experience.intro": "Staj deneyimim ve eğitimim.",
-  "page.contact.intro": "Projeler, iş ve staj fırsatları için bana ulaşın.",
   "page.soon": "Bu sayfanın tasarımı hazırlanıyor. Kısa süre içinde burada olacak.",
   "projects.intro": "Fikirden yayına kadar tek başıma geliştirdiğim ürünler.",
   "projects.filter.label": "Projeleri filtrele",
@@ -92,7 +88,6 @@ const tr = {
   "experience.summary": "Özet bilgiler",
   "experience.cta": "Staj, iş ve proje fırsatları için bana ulaşın.",
   "experience.seeProjects": "Projelerimi gör",
-  "page.back": "Ana sayfaya dön",
 } as const;
 
 // İngilizce sözlük Türkçe ile aynı anahtarlara sahip olmak ZORUNDA:
@@ -149,10 +144,6 @@ const en: Record<keyof typeof tr, string> = {
   "bento.contact.text": "Reach out about new projects, product work and engineering opportunities.",
   "bento.contact.profiles": "Code and social profiles",
   newTab: "(opens in a new tab)",
-  "page.about.intro": "Who I am, how I work and what I care about.",
-  "page.projects.intro": "Products I build from idea to launch.",
-  "page.experience.intro": "My internship experience and education.",
-  "page.contact.intro": "Get in touch about projects, jobs and internships.",
   "page.soon": "This page is being designed. It will be here soon.",
   "projects.intro": "Products I build on my own, from idea to launch.",
   "projects.filter.label": "Filter projects",
@@ -183,7 +174,6 @@ const en: Record<keyof typeof tr, string> = {
   "experience.summary": "Summary",
   "experience.cta": "Reach out about internships, jobs and projects.",
   "experience.seeProjects": "See my projects",
-  "page.back": "Back to home",
 };
 
 export const ui = { tr, en } as const;
