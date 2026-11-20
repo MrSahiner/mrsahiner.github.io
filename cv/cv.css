@@ -34,12 +34,12 @@ html {
 body {
   width: 210mm;
   min-height: 297mm;
-  padding: 14mm 15mm 12mm;
+  padding: 11mm 14mm 9mm;
   background: #fff;
   color: var(--foreground);
   font-family: var(--sans);
-  font-size: 9pt;
-  line-height: 1.5;
+  font-size: 8.6pt;
+  line-height: 1.42;
 }
 
 a {
@@ -101,13 +101,13 @@ a {
 /* Gövde: ana sütun + kenar sütunu */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 52mm;
-  gap: 8mm;
-  margin-top: 6mm;
+  grid-template-columns: 1fr 50mm;
+  gap: 7mm;
+  margin-top: 5mm;
 }
 
 .section + .section {
-  margin-top: 5.5mm;
+  margin-top: 4.5mm;
 }
 
 .label {
@@ -126,7 +126,7 @@ a {
 
 /* Deneyim ve proje kayıtları */
 .entry + .entry {
-  margin-top: 4mm;
+  margin-top: 3mm;
 }
 
 .entry-head {
@@ -220,6 +220,12 @@ a {
 
 .plain span {
   display: block;
+  color: var(--muted);
+  font-size: 8pt;
+}
+
+.note {
+  margin-top: 1.5mm;
   color: var(--muted);
   font-size: 8pt;
 }

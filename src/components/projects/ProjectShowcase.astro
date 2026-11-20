@@ -1,10 +1,9 @@
 ---
 // Projeler sayfasındaki büyük proje vitrini. "spotlight" ters renkli kart (ilk proje), "surface" açık kart.
-// Kart kaydırınca belirir; içindeki mockup katmanları imlece göre derinlik kazanır (src/scripts/projects.ts).
+// Kart kaydırınca belirir; içindeki ekran görüntüsü katmanları imlece göre derinlik kazanır (src/scripts/projects.ts).
 import Icon from "../ui/Icon.astro";
 import Button from "../ui/Button.astro";
-import KutligoMockup from "./KutligoMockup.astro";
-import CoffeeGoMockup from "./CoffeeGoMockup.astro";
+import ProjectCover from "./ProjectCover.astro";
 import { useTranslations } from "../../i18n/utils";
 import { pathFor } from "../../i18n/routes";
 import type { Lang } from "../../i18n/ui";
@@ -68,7 +67,7 @@ const headingId = `proje-${p.slug}-baslik`;
 
   <div class="relative z-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
     <div class:list={["lg:col-span-6", reverse && "lg:order-2"]}>
-      {p.slug === "kutligo" ? <KutligoMockup /> : <CoffeeGoMockup />}
+      <ProjectCover project={p} />
     </div>
 
     <div

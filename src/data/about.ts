@@ -14,11 +14,14 @@ export const about = {
     en: "I build products end to end, from idea to production.",
   } satisfies Localized,
   bio: {
-    tr: "Yozgat Bozok Üniversitesi Bilgisayar Mühendisliği 4. sınıf öğrencisiyim. 2026 yazında Intellium Bilişim Teknolojileri'nde full-stack stajyer olarak kurumsal bir görüntülü toplantı platformunda .NET ve React ile çalıştım. Şu anda kurmayı planladığımız Grentra çatısı altında KutliGo ve Coffee Go'yu gereksinim analizinden yayına kadar tek başıma geliştiriyorum.",
-    en: "I'm a senior Computer Engineering student at Yozgat Bozok University. In summer 2026 I worked as a full-stack intern at Intellium Bilişim Teknolojileri on an enterprise video meeting platform with .NET and React. I'm now building KutliGo and Coffee Go on my own under Grentra, the company we are planning to found, from requirements analysis to launch.",
+    tr: "Yozgat Bozok Üniversitesi Bilgisayar Mühendisliği 4. sınıf öğrencisiyim. 2026 yazında Intellium Bilişim Teknolojileri'nde yazılım mühendisliği stajyeri ve Scrum Master olarak kurumsal bir görüntülü toplantı platformunda .NET ve React ile çalıştım. Şu anda kurmayı planladığımız Grentra çatısı altında KutliGo ve Coffee Go'yu gereksinim analizinden yayına kadar tek başıma geliştiriyorum.",
+    en: "I'm a senior Computer Engineering student at Yozgat Bozok University. In summer 2026 I worked as a software engineering intern and Scrum Master at Intellium Bilişim Teknolojileri on an enterprise video meeting platform with .NET and React. I'm now building KutliGo and Coffee Go on my own under Grentra, the company we are planning to found, from requirements analysis to launch.",
   } satisfies Localized,
   facts: [
-    { label: { tr: "Eğitim", en: "Education" }, value: { tr: "Bozok Üniversitesi", en: "Bozok University" } },
+    {
+      label: { tr: "Eğitim", en: "Education" },
+      value: { tr: "Yozgat Bozok Üniversitesi", en: "Yozgat Bozok University" },
+    },
     { label: { tr: "Sınıf", en: "Year" }, value: { tr: "4. sınıf · 2027", en: "Senior · 2027" } },
     { label: { tr: "Odak", en: "Focus" }, value: { tr: "Full-stack & Backend", en: "Full-stack & Backend" } },
     {
@@ -63,23 +66,23 @@ export const about = {
   skills: [
     {
       group: { tr: "Frontend", en: "Frontend" },
-      items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Astro"],
+      items: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Astro"],
     },
     {
       group: { tr: "Backend", en: "Backend" },
-      items: ["ASP.NET Core", "C#", "PostgreSQL", "Redis", "Hangfire", "SignalR"],
+      items: ["C#", "ASP.NET Core", "EF Core", "PostgreSQL", "Redis", "Hangfire", "SignalR"],
     },
-    { group: { tr: "Mobil", en: "Mobile" }, items: ["React Native", "Expo"] },
+    { group: { tr: "Mobil", en: "Mobile" }, items: ["React Native", "Expo", "Flutter", "Dart"] },
     {
-      group: { tr: "Araçlar", en: "Tools" },
-      items: ["Git", "GitHub Actions", "Docker", "Playwright", "Figma"],
+      group: { tr: "Araçlar ve diğerleri", en: "Tools & more" },
+      items: ["Git", "GitHub Actions", "Docker", "xUnit", "Playwright", "Java", "C++", "Figma"],
     },
   ] satisfies { group: Localized; items: string[] }[],
   now: {
     title: { tr: "Grentra'yı kuruyorum", en: "I'm founding Grentra" } satisfies Localized,
     text: {
-      tr: "KutliGo'yu Aralık 2026'da yayına hazırlıyor, Coffee Go'nun tasarımını tamamlıyorum.",
-      en: "I'm getting KutliGo ready to launch in December 2026 and finishing Coffee Go's design.",
+      tr: "KutliGo'yu Aralık 2026'da yayına, bitirme projem Coffee Go'yu Yozgat'taki pilota hazırlıyorum.",
+      en: "I'm getting KutliGo ready to launch in December 2026 and my graduation project Coffee Go ready for its pilot in Yozgat.",
     } satisfies Localized,
   },
 };

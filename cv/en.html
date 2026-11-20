@@ -9,7 +9,7 @@
     <header class="header">
       <div>
         <h1 class="name">Muhammed Salim Şahiner</h1>
-        <p class="role">Full-stack Developer · Computer Engineering Student</p>
+        <p class="role">Full-stack Software Developer · Computer Engineering 2027</p>
       </div>
       <ul class="links">
         <li><a href="https://mrsahiner.github.io/en/">mrsahiner.github.io</a></li>
@@ -19,20 +19,18 @@
             >linkedin.com/in/muhammed-salim-şahiner</a
           >
         </li>
-        <li>Türkiye</li>
+        <li>Contact: <a href="https://mrsahiner.github.io/en/contact/">form on my site</a></li>
       </ul>
     </header>
 
     <div class="layout">
       <main>
         <section class="section">
-          <h2 class="label">Profile</h2>
+          <h2 class="label">Summary</h2>
           <p class="lead">
-            Backend-focused full-stack developer who builds products end to end, from idea to production. I
-            interned on an enterprise project with .NET and React, and I'm now building two products on my own
-            under Grentra, the company we are planning to found, from requirements analysis to launch. I write
-            down requirements and architecture before coding, and ship every change on its own branch, ready
-            for review.
+            Final-year Computer Engineering student (2027) and backend-focused full-stack developer. Software
+            engineering intern and Scrum Master at Intellium on an enterprise video meeting platform. I build
+            Coffee Go, my graduation project, and KutliGo on my own, from requirements analysis to launch.
           </p>
         </section>
 
@@ -41,41 +39,34 @@
 
           <article class="entry">
             <div class="entry-head">
-              <h3 class="entry-title">Grentra</h3>
-              <span class="entry-date">2026 — Present</span>
+              <h3 class="entry-title">Intellium Bilişim Teknolojileri</h3>
+              <span class="entry-date">Jun — Aug 2026</span>
             </div>
-            <p class="entry-role">Co-founder · Product development (being founded)</p>
+            <p class="entry-role">Software Engineering Intern &amp; Scrum Master</p>
             <ul>
-              <li>Building KutliGo and Coffee Go on my own, from requirements analysis to launch.</li>
               <li>
-                Responsible for the whole product: architecture, database design, interface, CI/CD and
-                servers.
+                Designed and delivered meeting archiving and a retention policy end to end, from data model to
+                UI.
               </li>
+              <li>Room access control, abandoned-session cleanup and real-time room state over SignalR.</li>
+              <li>
+                Unified chat edit, reply and delete across chat types; added meeting document attachments.
+              </li>
+              <li>
+                Fixed user-facing defects; wrote design documents on connectivity, query performance and
+                recording uploads.
+              </li>
+              <li>As Scrum Master, ran stand-ups, sprint planning and the task board; code review and CI.</li>
             </ul>
+            <p class="tech">.NET · EF Core · PostgreSQL · SignalR · WebRTC · React · TypeScript · Docker</p>
           </article>
 
           <article class="entry">
             <div class="entry-head">
-              <h3 class="entry-title">Intellium Bilişim Teknolojileri</h3>
-              <span class="entry-date">Jun — Aug 2026</span>
+              <h3 class="entry-title">Grentra</h3>
+              <span class="entry-date">2026 — Present</span>
             </div>
-            <p class="entry-role">Full-stack Intern · 30 working days</p>
-            <ul>
-              <li>
-                Worked with the web and server-side teams on an enterprise video meeting and messaging
-                platform.
-              </li>
-              <li>Fixed user-facing bugs in meeting access, recordings and consent flows.</li>
-              <li>
-                Built meeting documents, archiving and retention policy, room access control and chat
-                features.
-              </li>
-              <li>
-                Worked on feature branches through code review; wrote design documents on performance,
-                networking and security.
-              </li>
-            </ul>
-            <p class="tech">.NET · EF Core · PostgreSQL · SignalR · WebRTC · React · TypeScript · Docker</p>
+            <p class="entry-role">Co-founder (being founded) · Sole developer of Coffee Go and KutliGo</p>
           </article>
         </section>
 
@@ -84,45 +75,61 @@
 
           <article class="entry">
             <div class="entry-head">
-              <h3 class="entry-title">KutliGo</h3>
-              <span class="entry-date">In development · MVP Dec 2026</span>
+              <h3 class="entry-title">Coffee Go</h3>
+              <span class="entry-date">Sep 2026 — Present · Graduation project</span>
             </div>
-            <p>
-              Digital invitations and a QR photo album for weddings and engagements. Guests RSVP without an
-              account and upload photos via QR without installing an app; AI suggests an album from the best
-              shots.
+            <ul>
+              <li>
+                Platform of a mobile app, web menu, business panel and REST API: verified reviews, menus in 28
+                languages, loyalty cards, campaigns and table ordering in one place.
+              </li>
+              <li>
+                Layered visit verification: table QR, PostGIS location check (≤100 m), Firebase App Check and
+                a permanent account; hourly four-rule suspicious-rating detection and Bayesian venue scores.
+              </li>
+              <li>
+                Multilingual content pipeline: on-demand DeepL translation with a city glossary that keeps
+                local dish names; a two-level cache serves menus in 0.02 s after a 1.5 s first load.
+              </li>
+              <li>
+                Table orders that reach the panel in real time, loyalty stamps via one-time codes and
+                scheduled campaigns.
+              </li>
+              <li>
+                470+ automated tests (on real PostgreSQL/PostGIS via Testcontainers); CI on every pull
+                request.
+              </li>
+            </ul>
+            <p class="tech">
+              .NET 10 · Onion + CQRS · PostgreSQL/PostGIS · Redis · Hangfire · Firebase · DeepL · Meilisearch
+              · React Native · React · xUnit · Testcontainers
             </p>
+          </article>
+
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-title">KutliGo</h3>
+              <span class="entry-date">Nov 2026 — Present · MVP Dec 2026</span>
+            </div>
+            <ul>
+              <li>
+                Digital invitations and a QR photo album for weddings and engagements: RSVP without an
+                account, photo uploads without an app, AI-suggested albums.
+              </li>
+              <li>Built in two-week sprints; 100+ automated tests and end-to-end tests with Playwright.</li>
+            </ul>
             <p class="tech">
               Next.js · TypeScript · ASP.NET Core (.NET 10) · Onion + CQRS · PostgreSQL · Redis · Hangfire ·
-              Cloudflare R2 · Playwright
+              Cloudflare R2
             </p>
           </article>
 
           <article class="entry">
-            <div class="entry-head">
-              <h3 class="entry-title">Coffee Go</h3>
-              <span class="entry-date">In design</span>
-            </div>
             <p>
-              Mobile and web app that shows café and restaurant QR menus in the visitor's own language, with
-              nearby place discovery and reviews tied to verified visits to prevent fake ratings.
+              <strong>Warehouse Automation System</strong> · Web and mobile warehouse automation with Flutter
+              and Firebase. <br /><strong>mrsahiner.github.io</strong> · Bilingual Astro portfolio with a CSP
+              and a build-time WCAG AA contrast check.
             </p>
-            <p class="tech">
-              React Native · React · ASP.NET Core (.NET 10) · PostgreSQL + PostGIS · Redis · Firebase · DeepL
-              · Meilisearch
-            </p>
-          </article>
-
-          <article class="entry">
-            <div class="entry-head">
-              <h3 class="entry-title">mrsahiner.github.io</h3>
-              <span class="entry-date">2026</span>
-            </div>
-            <p>
-              Bilingual personal portfolio with a Content Security Policy, a build-time WCAG AA contrast check
-              and automated deployment with GitHub Actions.
-            </p>
-            <p class="tech">Astro · TypeScript · Tailwind CSS · GitHub Actions</p>
           </article>
         </section>
       </main>
@@ -134,61 +141,66 @@
             <li>
               <strong>Yozgat Bozok University</strong>
               <span>B.Sc. Computer Engineering</span>
-              <span>Senior · Graduating 2027</span>
+              <span>2023 — 2027 (expected)</span>
             </li>
           </ul>
+          <p class="note">
+            Coursework: OOP, database management systems, computer networks, operating systems, software
+            engineering.
+          </p>
         </section>
 
         <section class="section">
           <h2 class="label">Skills</h2>
           <div class="skill-group">
+            <h3>Programming languages</h3>
+            <ul class="tags">
+              <li>C#</li>
+              <li>TypeScript</li>
+              <li>JavaScript</li>
+              <li>Java</li>
+              <li>C++</li>
+              <li>Dart</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+          <div class="skill-group">
             <h3>Backend</h3>
             <ul class="tags">
               <li>ASP.NET Core</li>
-              <li>C#</li>
               <li>EF Core</li>
-              <li>PostgreSQL</li>
-              <li>Redis</li>
-              <li>Hangfire</li>
+              <li>REST</li>
               <li>SignalR</li>
+              <li>CQRS</li>
+              <li>Clean Architecture</li>
+              <li>Hangfire</li>
             </ul>
           </div>
           <div class="skill-group">
-            <h3>Frontend</h3>
+            <h3>Frontend &amp; mobile</h3>
             <ul class="tags">
               <li>React</li>
               <li>Next.js</li>
-              <li>TypeScript</li>
-              <li>Tailwind CSS</li>
-              <li>Astro</li>
-            </ul>
-          </div>
-          <div class="skill-group">
-            <h3>Mobile</h3>
-            <ul class="tags">
               <li>React Native</li>
               <li>Expo</li>
+              <li>Flutter</li>
             </ul>
           </div>
           <div class="skill-group">
-            <h3>Tools</h3>
+            <h3>Data &amp; tools</h3>
             <ul class="tags">
-              <li>Git</li>
-              <li>GitHub Actions</li>
+              <li>PostgreSQL</li>
+              <li>Redis</li>
+              <li>Firebase</li>
+              <li>WebRTC</li>
               <li>Docker</li>
+              <li>Git</li>
+              <li>CI/CD</li>
+              <li>xUnit</li>
               <li>Playwright</li>
-              <li>Figma</li>
+              <li>LLM integration</li>
             </ul>
           </div>
-        </section>
-
-        <section class="section">
-          <h2 class="label">Approach</h2>
-          <ul class="plain">
-            <li>Analysis first<span>Requirements, architecture and risks in writing.</span></li>
-            <li>Security from day one<span>Authorization on the server, secrets out of code.</span></li>
-            <li>Small steps<span>Every change on its own branch, ready for review.</span></li>
-          </ul>
         </section>
 
         <section class="section">
@@ -197,6 +209,11 @@
             <li>Turkish<span>Native</span></li>
             <li>English<span>A2–B1</span></li>
           </ul>
+        </section>
+
+        <section class="section">
+          <h2 class="label">Code</h2>
+          <p class="note">Project repositories are private; code samples available on request.</p>
         </section>
       </aside>
     </div>

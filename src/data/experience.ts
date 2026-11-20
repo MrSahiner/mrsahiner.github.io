@@ -52,9 +52,12 @@ export const experience: ExperienceEntry[] = [
     id: "intellium",
     variant: "surface",
     date: { tr: "29 Haziran — 10 Ağustos 2026", en: "29 June — 10 August 2026" },
-    note: { tr: "Yaz stajı · 30 iş günü", en: "Summer internship · 30 working days" },
+    note: { tr: "Yaz stajı", en: "Summer internship" },
     title: { tr: "Intellium Bilişim Teknolojileri", en: "Intellium Bilişim Teknolojileri" },
-    role: { tr: "Full-stack Stajyer · 30 iş günü", en: "Full-stack Intern · 30 working days" },
+    role: {
+      tr: "Yazılım Mühendisliği Stajyeri & Scrum Master",
+      en: "Software Engineering Intern & Scrum Master",
+    },
     bullets: [
       {
         tr: "Kurumsal bir görüntülü toplantı ve mesajlaşma platformunda web arayüzü ve sunucu tarafı ekipleriyle çalıştım.",
@@ -71,6 +74,10 @@ export const experience: ExperienceEntry[] = [
       {
         tr: "Kod inceleme süreciyle özellik dallarında çalıştım; performans, ağ ve güvenlik konularında tasarım belgeleri hazırladım.",
         en: "Worked on feature branches through code review; wrote design documents on performance, networking and security.",
+      },
+      {
+        tr: "Scrum Master olarak günlük toplantıları, sprint planlamayı ve görev panosunu yürüttüm.",
+        en: "As Scrum Master, I ran the daily stand-ups, sprint planning and the task board.",
       },
     ],
     tags: [
@@ -104,16 +111,12 @@ export const experience: ExperienceEntry[] = [
 ];
 
 export const experienceInfo: { label: Localized; value: Localized; dot?: boolean }[] = [
-  {
-    label: { tr: "Diller", en: "Languages" },
-    value: { tr: "Türkçe (ana dil) · İngilizce (A2–B1)", en: "Turkish (native) · English (A2–B1)" },
-  },
   { label: { tr: "Odak", en: "Focus" }, value: { tr: "Full-stack & Backend", en: "Full-stack & Backend" } },
   {
-    label: { tr: "Durum", en: "Status" },
+    label: { tr: "Şu an", en: "Now" },
     value: {
-      tr: "Full-stack ve backend fırsatlarına açığım",
-      en: "Open to full-stack and backend opportunities",
+      tr: "Grentra'da Coffee Go ve KutliGo'yu geliştiriyorum",
+      en: "Building Coffee Go and KutliGo at Grentra",
     },
     dot: true,
   },

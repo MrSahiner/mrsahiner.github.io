@@ -1,0 +1,41 @@
+---
+// Proje vitrinindeki önizleme: geniş ekran görüntüsü ve üstüne binen telefon ekranı (gerçek ekran görüntüleri).
+// Katmanlar imlece göre derinlik kazanır (src/scripts/projects.ts, .mockup-layer ve --depth).
+import { Image } from "astro:assets";
+import type { Project } from "../../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project: p } = Astro.props;
+---
+
+<div class="relative pr-10 pb-10 sm:pr-16" aria-hidden="true">
+  <div class="mockup-layer overflow-hidden rounded-xl border border-border bg-surface shadow-xl [--depth:0.5]">
+    <span class="flex gap-1.5 border-b border-border px-3 py-2">
+      <span class="size-2 rounded-full bg-border"></span>
+      <span class="size-2 rounded-full bg-border"></span>
+      <span class="size-2 rounded-full bg-border"></span>
+    </span>
+    <Image
+      src={p.cover.desktop}
+      alt=""
+      widths={[480, 720, 960, 1280]}
+      sizes="(min-width: 1024px) 500px, 85vw"
+      class="h-auto w-full"
+    />
+  </div>
+
+  <div class="mockup-layer absolute right-0 bottom-0 w-[34%] max-w-44 rounded-[22px] border border-border bg-surface p-1 shadow-2xl [--depth:1.2]">
+    <div class="aspect-[9/17] overflow-hidden rounded-[18px]">
+      <Image
+        src={p.cover.phone}
+        alt=""
+        widths={[180, 270, 360, 540]}
+        sizes="(min-width: 640px) 176px, 30vw"
+        class="size-full object-cover object-top"
+      />
+    </div>
+  </div>
+</div>
