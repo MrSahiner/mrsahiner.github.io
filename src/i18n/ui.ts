@@ -73,7 +73,10 @@ const tr = {
   "projects.screensNote": "Ekran görüntüleri yerel geliştirme ortamında, örnek verilerle alındı.",
   "projects.roadmap.badge": "Kod",
   "projects.roadmap.title": "Kod örnekleri",
-  "projects.roadmap.text": "Ürün repoları gizli; kod örneklerini talep üzerine paylaşıyorum.",
+  "projects.roadmap.text":
+    "Ürün repoları gizli. Coffee Go'nun çeviri hattını, testleriyle birlikte sadeleştirilmiş bir örnek olarak herkese açık paylaştım.",
+  "projects.roadmap.sample": "Örnek kodu incele",
+  "projects.sample": "Çeviri hattının açık örnek kodu",
   "projects.roadmap.github": "GitHub profilim",
   "projects.roadmap.contact": "İletişime geç",
   "about.photoAlt": "Muhammed Salim Şahiner'in portresi",
@@ -160,7 +163,10 @@ const en: Record<keyof typeof tr, string> = {
   "projects.screensNote": "Screenshots were taken in a local development environment with sample data.",
   "projects.roadmap.badge": "Code",
   "projects.roadmap.title": "Code samples",
-  "projects.roadmap.text": "Product repositories are private; I share code samples on request.",
+  "projects.roadmap.text":
+    "Product repositories are private. I published a simplified version of Coffee Go's translation pipeline, with its tests, as an open sample.",
+  "projects.roadmap.sample": "View the code sample",
+  "projects.sample": "Open code sample of the translation pipeline",
   "projects.roadmap.github": "My GitHub profile",
   "projects.roadmap.contact": "Get in touch",
   "about.photoAlt": "Portrait of Muhammed Salim Şahiner",

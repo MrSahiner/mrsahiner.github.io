@@ -74,6 +74,19 @@ const titleTransition: Record<Project["slug"], string> = {
       ))}
     </ul>
 
+    {p.sampleRepo && (
+      <a
+        href={p.sampleRepo}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-6 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground no-underline shadow-card transition-colors hover:border-accent hover:text-primary"
+      >
+        <Icon name="github-mark" class="size-4" />
+        {t("projects.sample")}
+        <span class="sr-only">{t("newTab")}</span>
+      </a>
+    )}
+
     <section class="mt-16" aria-labelledby="one-cikanlar">
       <h2 id="one-cikanlar" class="text-[32px] text-foreground sm:text-[40px]">
         {t("projects.highlights")}

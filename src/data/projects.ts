@@ -35,7 +35,12 @@ export interface Project {
   screens: Screen[];
   /** Kartlardaki önizleme: geniş ekran ve üstüne binen telefon ekranı. */
   cover: { desktop: ImageMetadata; phone: ImageMetadata };
+  /** Herkese açık örnek kod reposu (varsa). */
+  sampleRepo?: string;
 }
+
+/** Coffee Go'nun çeviri hattından sadeleştirilmiş, herkese açık örnek. */
+export const codeSampleUrl = "https://github.com/MrSahiner/menu-translation-pipeline";
 
 export interface Screen {
   image: ImageMetadata;
@@ -169,6 +174,7 @@ export const projects: Project[] = [
     tags: ["React Native", "React", "ASP.NET Core", "PostgreSQL + PostGIS", "Redis", "DeepL"],
     categories: ["mobile", "web", "backend"],
     cover: { desktop: cgOrders, phone: cgMenuEn },
+    sampleRepo: codeSampleUrl,
     highlights: [
       {
         tr: "Katmanlı ziyaret doğrulama: masadaki QR, PostGIS ile ≤100 m konum kontrolü ve Firebase App Check; saatte bir çalışan dört kurallı şüpheli puan tespiti.",
