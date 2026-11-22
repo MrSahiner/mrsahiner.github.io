@@ -26,6 +26,7 @@ export const contactText = {
   emailPlaceholder: { tr: "E-posta adresinizi yazın", en: "Type your email address" },
   topic: { tr: "Konu", en: "Topic" },
   topics: [
+    { value: "freelance", label: { tr: "Freelance proje", en: "Freelance project" } },
     { value: "is-birligi", label: { tr: "İş birliği", en: "Collaboration" } },
     { value: "proje", label: { tr: "Proje", en: "Project" } },
     { value: "diger", label: { tr: "Diğer", en: "Other" } },
